@@ -131,7 +131,7 @@
 <p>This program implements the standard equation to calculate CBF from either Continuous or pseudo-Continuous Arterial Spin Labelling data (CASL or pCASL). For the exact equation used, see the first reference below.</p>
 <p><img alt="CBF Map" src="../cbf.png" /></p>
 <p><strong>Example Command Line</strong></p>
-<pre><code class="bash">qi_asl asl_file.nii.gz --blood=2.429 --alpha=0.9 --average --slicetime --pd=reference_file.nii.gz &lt;input.txt
+<pre><code class="bash">qi_asl asl_file.nii.gz --blood=2.429 --alpha=0.9 --average --slicetime --pd=reference_file.nii.gz &lt;input.json
 </code></pre>
 
 <p>The input file must contain pairs of label &amp; control volumes. Currently the order of these is hard-coded to label, then control. The file can contain multiple pairs if you are studying timeseries data. The arguments are discussed further below. It is highly recommended to provide either a separated Proton Density reference image or a tissue T1 map.</p>
@@ -181,7 +181,7 @@
 <h2 id="qi_ase_oef">qi_ase_oef</h2>
 <p>Estimates the Oxygen Extraction Fraction (OEF) from Asymmetric Spin-Echo (ASE) data. If the signal evolution each side of a spin-echo in the presence of blood vessels is observed carefully, it does not display simple monoexponential T2<em> decay close to the echo, but is instead quadratically exponential. By measuring the T2</em> decay in the linear regime using an ASE sequence, it is possible to extrapolate back to the echo and obtain an estimate of what the signal would be if no blood was presence. The difference between this and the observed signal can be attributed to the Deoxygenated Blood Volume (DBV), and from there the OEF can be calculated.</p>
 <p><strong>Example Command Line</strong></p>
-<pre><code class="bash">qi_ase_oef ase_file.nii.gz --B0=9.4 $DB --fmap=fieldmap.nii.gz &lt;input.txt
+<pre><code class="bash">qi_ase_oef ase_file.nii.gz --B0=9.4 $DB --fmap=fieldmap.nii.gz &lt;input.json
 </code></pre>
 
 <p><strong>Example Input File</strong></p>

@@ -186,7 +186,7 @@ SPGR FILE was not specified. Use --help to see usage.
 <pre><code class="bash">~: qidespot1 some_spgr_data.nii.gz
 </code></pre>
 
-<p>Nothing will happen. This is because most imaging formats do not store parameters that are required for quantitative imaging, e.g. the repetition time and flip-angles in their headers. QUIT programs hence expect to read this information in a text file passed to <code>stdin</code>. If you create a small text file <code>spgr.txt</code> containing the following:</p>
+<p>Nothing will happen. This is because most imaging formats do not store parameters that are required for quantitative imaging, e.g. the repetition time and flip-angles in their headers. QUIT programs hence expect to read this information in a text file passed to <code>stdin</code>. If you create a small text file <code>spgr.json</code> containing the following:</p>
 <pre><code class="json">{
     &quot;SPGR&quot;: {
         &quot;TR&quot;: 0.01,
@@ -196,7 +196,7 @@ SPGR FILE was not specified. Use --help to see usage.
 </code></pre>
 
 <p>and run the following:</p>
-<pre><code class="bash">~: qidespot1 some_spgr_data.nii.gz &lt; spgr.txt
+<pre><code class="bash">~: qidespot1 some_spgr_data.nii.gz &lt; spgr.json
 </code></pre>
 
 <p>then (provided your input data does contain two volumes corresponding to flip-angles 3 and 18 degrees) then DESPOT1 will run, and you should see two files created (<code>D1_T1.nii.gz</code> and <code>D1_PD.nii.gz</code>). If you want to see what the programs are doing while running, specify the <code>--verbose</code> or <code>-v</code> options.</p>
@@ -316,5 +316,5 @@ SPGR FILE was not specified. Use --help to see usage.
 
 <!--
 MkDocs version : 0.17.3
-Build Date UTC : 2018-05-03 14:10:09
+Build Date UTC : 2018-05-17 09:35:04
 -->

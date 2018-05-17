@@ -181,7 +181,7 @@
 <h2 id="qi_rfprofile">qi_rfprofile</h2>
 <p>This utility takes a B1+ (transmit field inhomogeneity) map, and reads an excitation slab profile from <code>stdin</code>. The two are multiplied together along the slab direction (assumed to be Z), to produce a relative flip-angle or B1 map.</p>
 <p><strong>Example Command Line</strong></p>
-<pre><code class="bash">qi_rfprofile b1plus_map.nii.gz output_b1_map.nii.gz &lt; input.txt
+<pre><code class="bash">qi_rfprofile b1plus_map.nii.gz output_b1_map.nii.gz &lt; input.json
 </code></pre>
 
 <p><strong>Example Input File</strong></p>
@@ -423,7 +423,7 @@
 <h2 id="qisignal">qisignal</h2>
 <p>Generates simulated images using signal equations. Used for the QUIT tests - which will also serve as good examples if you want to use this tool.</p>
 <p><strong>Example Command Line</strong></p>
-<pre><code class="bash">qisignal --noise=0.01 simulated_spgr_image.nii.gz &lt; input.txt
+<pre><code class="bash">qisignal --noise=0.01 simulated_spgr_image.nii.gz &lt; input.json
 </code></pre>
 
 <p><strong>Example Input File</strong></p>
