@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Perfusion &mdash; QUIT  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Magnetization Transfer" href="MT.html" />
+    <link rel="prev" title="Relaxometry" href="Relaxometry.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> QUIT
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="Contents.html">Categories</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Relaxometry.html">Relaxometry</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Perfusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qi-asl">qi_asl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qi-ase-oef">qi_ase_oef</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MT.html">Magnetization Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SSFP.html">SSFP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Susceptibility.html">Susceptibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Stats.html">Statistics / GLM Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Developer.html">Developer</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QUIT</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Contents.html">Categories</a> &raquo;</li>
+        
+      <li>Perfusion</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Docs/Perfusion.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="perfusion">
+<h1>Perfusion<a class="headerlink" href="#perfusion" title="Permalink to this headline">¶</a></h1>
+<p>Perfusion is the study of blood flow within the brain. This module contains tools to calculate Cerebral Blood Flow (CBF) and the Oxygen Extraction Fraction (OEF).</p>
+<p>The following programs are available:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#qi-asl">qi_asl</a></li>
+<li><a class="reference internal" href="#qi-ase-oef">qi_ase_oef</a></li>
+</ul>
+<div class="section" id="qi-asl">
+<h2>qi_asl<a class="headerlink" href="#qi-asl" title="Permalink to this headline">¶</a></h2>
+<p>This program implements the standard equation to calculate CBF from either Continuous or pseudo-Continuous Arterial Spin Labelling data (CASL or pCASL). For the exact equation used, see the first reference below.</p>
+<img alt="A Rodent CBF Map" src="../_images/cbf.png" />
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_asl asl_file.nii.gz --blood<span class="o">=</span><span class="m">2</span>.429 --alpha<span class="o">=</span><span class="m">0</span>.9 --average --slicetime --pd<span class="o">=</span>reference_file.nii.gz &lt;input.json
+</pre></div>
+</div>
+<p>The input file must contain pairs of label &amp; control volumes. Currently the order of these is hard-coded to label, then control. The file can contain multiple pairs if you are studying timeseries data. The arguments are discussed further below. It is highly recommended to provide either a separated Proton Density reference image or a tissue T1 map.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;CASL&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span> <span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+        <span class="nt">&quot;label_time&quot;</span> <span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span>
+        <span class="nt">&quot;post_label_delay&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.9</span> <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The units for all these values must be consistent, seconds are preferred. If single-slice or 3D data was acquired, then <code class="docutils literal notranslate"><span class="pre">post_label_delay</span></code> should contain a single value. For multi-slice data, specify the <code class="docutils literal notranslate"><span class="pre">--slicetime</span></code> option and then provide the effective post-labelling delay for each slice.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">input_CBF</span></code> - The CBF value, given in mL/(100 g)/min</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--blood,</span> <span class="pre">-b</span></code></p>
+<blockquote>
+<div><p>The T1 value of blood at the field strength used. The default value is 1.65 seconds, corresponding to 3T. For 1.5T the value should be 1.35 seconds and at 9.4T it should 2.429 seconds. See reference 2.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--pd,</span> <span class="pre">-p</span></code></p>
+<blockquote>
+<div><p>Provide a separate image to estimate of the Proton Density of tissue. If this is not provided, the label images are used instead.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--tissue,</span> <span class="pre">-t</span></code></p>
+<blockquote>
+<div><p>Provide a T1 map to correct the Proton Density estimate. If a separate PD reference is not given, then an alternative is to correct the label images for incomplete T1 relaxation.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--alpha,</span> <span class="pre">-a</span></code></p>
+<blockquote>
+<div><p>The labelling efficiency of the sequence.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--lambda,</span> <span class="pre">-l</span></code></p>
+<blockquote>
+<div><p>The blood-brain partition co-efficient, default 0.9 mL/g.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://dx.doi.org/10.1002/mrm.25197">ISMRM Consortium Recommendations</a></li>
+<li><a class="reference external" href="http://dx.doi.org/10.1016/j.mri.2006.10.020">High-field blood T1 times</a></li>
+</ul>
+</div>
+<div class="section" id="qi-ase-oef">
+<h2>qi_ase_oef<a class="headerlink" href="#qi-ase-oef" title="Permalink to this headline">¶</a></h2>
+<p>Estimates the Oxygen Extraction Fraction (OEF) from Asymmetric Spin-Echo (ASE) data. If the signal evolution each side of a spin-echo in the presence of blood vessels is observed carefully, it does not display simple monoexponential T2* decay close to the echo, but is instead quadratically exponential. By measuring the T2* decay in the linear regime using an ASE sequence, it is possible to extrapolate back to the echo and obtain an estimate of what the signal would be if no blood was presence. The difference between this and the observed signal can be attributed to the Deoxygenated Blood Volume (DBV), and from there the OEF can be calculated.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_ase_oef ase_file.nii.gz --B0<span class="o">=</span><span class="m">9</span>.4 <span class="nv">$DB</span> --fmap<span class="o">=</span>fieldmap.nii.gz &lt;input.json
+</pre></div>
+</div>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;MultiEcho&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span> <span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+        <span class="nt">&quot;TE1&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&quot;ESP&quot;</span> <span class="p">:</span> <span class="mf">0.002</span><span class="p">,</span>
+        <span class="nt">&quot;ETL&quot;</span> <span class="p">:</span> <span class="mi">10</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">TR</span></code> must be provided but is not used in the calculation. Echo-times below the critical time (Tc) will be excluded from the R2’ calculation.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">input_R2prime.nii.gz</span></code> The R2’ map. Units are the same as those used for <code class="docutils literal notranslate"><span class="pre">TR</span></code>, <code class="docutils literal notranslate"><span class="pre">TE1</span></code> and <code class="docutils literal notranslate"><span class="pre">ESP</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">input_DBV.nii.gz</span></code> The Deoxygenated Blood Volume, in percent.</li>
+<li><code class="docutils literal notranslate"><span class="pre">input_OEF.nii.gz</span></code> The Oxygen Extraction Fraction, in percent.</li>
+<li><code class="docutils literal notranslate"><span class="pre">input_dHb.nii.gz</span></code> The Deoxyhaemoglobin concentration.</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--B0,</span> <span class="pre">-b</span></code></p>
+<blockquote>
+<div><p>Field-strength the data was acquired at. This is used to calculate Tc and appears elsewhere in several equations.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--fmap,</span> <span class="pre">-f</span></code></p>
+<blockquote>
+<div><p>Provide a field-map (in Hertz). This will be used to provide first-order correction of Macroscopic Field Gradients (MFGs). If this option is specified, the derivative of the field-map in all 3 directions will also be saved.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--slice,-s</span></code></p>
+<blockquote>
+<div><p>If the data was acquired with a slice-gap, use this option to specify the actual slice-thickness for the MFG calculation.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="https://doi.org/10.1016/j.neuroimage.2016.11.057">Blockley</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="MT.html" class="btn btn-neutral float-right" title="Magnetization Transfer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Relaxometry.html" class="btn btn-neutral" title="Relaxometry" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Tobias Wood.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

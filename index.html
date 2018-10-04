@@ -1,325 +1,356 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Documentation for the QUantitative Imaging Tools">
-        
-        <link rel="canonical" href="https://spinicist.github.io/QUIT/">
-        <link rel="shortcut icon" href="./img/favicon.ico">
-        <title>QUIT</title>
-        <link href="./css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="./css/font-awesome-4.5.0.css" rel="stylesheet">
-        <link href="./css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="./css/highlight.css">
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to QUIT’s documentation! &mdash; QUIT  documentation</title>
+  
 
-        <script src="./js/jquery-1.10.2.min.js"></script>
-        <script src="./js/bootstrap-3.0.3.min.js"></script>
-        <script src="./js/highlight.pack.js"></script> 
-    </head>
+  
+  
+  
+  
 
-    <body class="homepage">
+  
 
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
+  
+  
+    
 
-        <!-- Collapsed navigation -->
-        <div class="navbar-header">
-            <!-- Expander button -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href=".">QUIT</a>
-        </div>
+  
 
-        <!-- Expanded navigation -->
-        <div class="navbar-collapse collapse">
-                <!-- Main navigation -->
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href=".">Home</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Modules <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            
-<li >
-    <a href="Relaxometry/">Relaxometry</a>
-</li>
-                            
-<li >
-    <a href="SSFP/">SSFP</a>
-</li>
-                            
-<li >
-    <a href="MT/">Magnetization Transfer</a>
-</li>
-                            
-<li >
-    <a href="Perfusion/">Perfusion</a>
-</li>
-                            
-<li >
-    <a href="Susceptibility/">Susceptibility</a>
-</li>
-                            
-<li >
-    <a href="Stats/">Statistics</a>
-</li>
-                            
-<li >
-    <a href="Utilities/">Utilities</a>
-</li>
-                        </ul>
-                    </li>
-                    <li >
-                        <a href="Developer/">Developer</a>
-                    </li>
-                </ul>
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Categories" href="Docs/Contents.html" /> 
 
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                        <i class="fa fa-search"></i> Search
-                    </a>
-                </li>
-                    <li class="disabled">
-                        <a rel="next" >
-                            <i class="fa fa-arrow-left"></i> Previous
-                        </a>
-                    </li>
-                    <li >
-                        <a rel="prev" href="Relaxometry/">
-                            Next <i class="fa fa-arrow-right"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/spinicist/QUIT/edit/development/Docs/index.md"><i class="fa fa-github"></i> Edit on GitHub</a>
-                    </li>
-            </ul>
-        </div>
-    </div>
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> QUIT
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
 
-        <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#welcome">Welcome</a></li>
-            <li><a href="#citing">Citing</a></li>
-            <li><a href="#installation">Installation</a></li>
-            <li><a href="#compile-from-source">Compile From Source</a></li>
-            <li><a href="#general-usage">General Usage</a></li>
-            <li><a href="#common-options">Common Options</a></li>
-            <li><a href="#file-formats">File Formats</a></li>
-            <li><a href="#scripting">Scripting</a></li>
-    </ul>
-</div></div>
-                <div class="col-md-9" role="main">
+          
+        </div>
 
-<p><img alt="Logo" src="./logo.png" /></p>
-<h1 id="welcome">Welcome</h1>
-<p>Welcome to the QUantitative Imaging Tools, a collection of C++ programs for analysing quantitative MR images. QUIT is divided into several modules, each of which contains numerous programs for processing images. The modules are:</p>
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li><a href="Relaxometry/">Relaxometry</a></li>
-<li><a href="Perfusion/">Perfusion</a></li>
-<li><a href="MT/">Magnetization Transfer</a></li>
-<li><a href="SSFP/">Steady-State Free-Precession</a></li>
-<li><a href="Susceptibility/">Susceptibility</a></li>
-<li><a href="Stats/">Stats / GLM</a></li>
-<li><a href="Utilities/">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Docs/Contents.html">Categories</a></li>
 </ul>
-<h2 id="citing">Citing</h2>
-<p>QUIT has been published in the Journal of Open Source Software. If you use it, please cite the <a href="https://doi.org/10.21105/joss.00656">paper</a> in the following way:</p>
-<p><code>Wood, (2018). QUIT: QUantitative Imaging Tools. Journal of Open Source Software, 3(26), 656, https://doi.org/10.21105/joss.00656</code></p>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">QUIT</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to QUIT’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <img alt="_images/logo.png" src="_images/logo.png" />
+<div class="section" id="welcome-to-quit-s-documentation">
+<h1>Welcome to QUIT’s documentation!<a class="headerlink" href="#welcome-to-quit-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the QUantitative Imaging Tools, a collection of C++ programs for analysing quantitative MR images. QUIT is divided into several modules, each of which contains numerous programs for processing images. The modules are:</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Docs/Contents.html">Categories</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Docs/Relaxometry.html">Relaxometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Docs/Perfusion.html">Perfusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Docs/MT.html">Magnetization Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Docs/SSFP.html">SSFP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Docs/Susceptibility.html">Susceptibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Docs/Stats.html">Statistics / GLM Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Docs/Utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Docs/Developer.html">Developer</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="citing">
+<h2>Citing<a class="headerlink" href="#citing" title="Permalink to this headline">¶</a></h2>
+<p>QUIT has been published in the Journal of Open Source Software. If you use it, please cite:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Wood, (2018). QUIT: QUantitative Imaging Tools. Journal of Open Source Software, 3(26), 656, <a class="reference external" href="https://doi.org/10.21105/joss.00656">https://doi.org/10.21105/joss.00656</a></p>
+</div>
 <p>Thank you.</p>
-<h2 id="installation">Installation</h2>
-<p>Pre-compiled binaries are provided for Linux and Mac OS X in a .tar.gz archive from the <a href="http://github.com/spinicist/QUIT/releases" title="Releases">releases page</a>.</p>
-<p>Download the correct archive for your platform, untar it and then ensure that the binaries can be found via your <code>PATH</code> environment variable. Either edit your shell profile (e.g. <code>.bashrc</code>) and add the QUIT directory your <code>PATH</code> variable there, or copy the files to somewhere that will be on your path, e.g. <code>/usr/local/bin</code> (this will likely require <code>sudo</code> permissions).</p>
-<p>The Linux binaries are built with Ubuntu 14.04 with GCC 6. If you need to run on an older version of Linux with a previous version of <code>glibc</code> then you will need to
-compile from source.</p>
-<h2 id="compile-from-source">Compile From Source</h2>
-<p>See the <a href="Developer/">developer documentation</a></p>
-<h2 id="general-usage">General Usage</h2>
-<p>QUIT programs take their input as a combination of command-line arguments and text files passed to <code>stdin</code>. If you run a QUIT program with no arguments then will see a message like this:</p>
-<pre><code class="bash">~: qidespot1
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Pre-compiled binaries are provided for Linux and Mac OS X in a .tar.gz archive from the <a class="reference external" href="http://github.com/spinicist/QUIT/releases&quot;Releases&quot;">releases page</a>.</p>
+<p>Download the correct archive for your platform, untar it and then ensure that the binaries can be found via your <cite>PATH</cite> environment variable. Either edit your shell profile (e.g. <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code>) and add the QUIT directory your <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> variable there, or copy the files to somewhere that will be on your path, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/bin</span></code> (this will likely require <code class="docutils literal notranslate"><span class="pre">sudo</span></code> permissions).</p>
+<p>The Linux binaries are built with Ubuntu 14.04 with GCC 7. If you need to run on an older version of Linux with a previous version of <code class="docutils literal notranslate"><span class="pre">glibc</span></code> then you may need to compile from source.</p>
+</div>
+<div class="section" id="compile-from-source">
+<h2>Compile From Source<a class="headerlink" href="#compile-from-source" title="Permalink to this headline">¶</a></h2>
+<p>See the <a class="reference internal" href="Docs/Developer.html"><span class="doc">Developer</span></a> documentation.</p>
+</div>
+<div class="section" id="general-usage">
+<h2>General Usage<a class="headerlink" href="#general-usage" title="Permalink to this headline">¶</a></h2>
+<p>QUIT programs take their input as a combination of command-line arguments and text files passed to <code class="docutils literal notranslate"><span class="pre">stdin</span></code>. If you run a QUIT program with no arguments then will see a message like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~: qidespot1
 SPGR FILE was not specified. Use --help to see usage.
 &gt;
-</code></pre>
-
-<p>If you then run it with <code>--help</code>, you will see some usage instructions:</p>
-<pre><code class="bash">~: qidespot1 --help
-  qidespot1 {OPTIONS} [SPGR FILE]
+</pre></div>
+</div>
+<p>If you then run it with <code class="docutils literal notranslate"><span class="pre">--help</span></code>, you will see some usage instructions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~: qidespot1 --help
+qidespot1 <span class="o">{</span>OPTIONS<span class="o">}</span> <span class="o">[</span>SPGR FILE<span class="o">]</span>
 
     Calculates T1 maps from SPGR data
     http://github.com/spinicist/QUIT
 
-  OPTIONS:
+OPTIONS:
 
-      SPGR FILE                         Path to SPGR data
-      -h, --help                        Show this help message
-      -v, --verbose                     Print more information
-      -T[THREADS], --threads=[THREADS]  Use N threads (default=4, 0=hardware
-                                        limit)
-      -o[OUTPREFIX], --out=[OUTPREFIX]  Add a prefix to output filenames
-      -b[B1], --B1=[B1]                 B1 map (ratio) file
-      -m[MASK], --mask=[MASK]           Only process voxels within the mask
-      -s[SUBREGION],
-      --subregion=[SUBREGION]           Process subregion starting at voxel
+    SPGR FILE                         Path to SPGR data
+    -h, --help                        Show this <span class="nb">help</span> message
+    -v, --verbose                     Print more information
+    -T<span class="o">[</span>THREADS<span class="o">]</span>, --threads<span class="o">=[</span>THREADS<span class="o">]</span>  Use N threads <span class="o">(</span><span class="nv">default</span><span class="o">=</span><span class="m">4</span>, <span class="nv">0</span><span class="o">=</span>hardware
+                                        limit<span class="o">)</span>
+    -o<span class="o">[</span>OUTPREFIX<span class="o">]</span>, --out<span class="o">=[</span>OUTPREFIX<span class="o">]</span>  Add a prefix to output filenames
+    -b<span class="o">[</span>B1<span class="o">]</span>, --B1<span class="o">=[</span>B1<span class="o">]</span>                 B1 map <span class="o">(</span>ratio<span class="o">)</span> file
+    -m<span class="o">[</span>MASK<span class="o">]</span>, --mask<span class="o">=[</span>MASK<span class="o">]</span>           Only process voxels within the mask
+    -s<span class="o">[</span>SUBREGION<span class="o">]</span>,
+    --subregion<span class="o">=[</span>SUBREGION<span class="o">]</span>           Process subregion starting at voxel
                                         I,J,K with size SI,SJ,SK
-      -r, --resids                      Write out residuals for each data-point
-      -a[ALGO], --algo=[ALGO]           Choose algorithm (l/w/n)
-      -i[ITERS], --its=[ITERS]          Max iterations for WLLS/NLLS (default
-                                        15)
-      -p[CLAMP PD], --clampPD=[CLAMP
-      PD]                               Clamp PD between 0 and value
-      -t[CLAMP T1], --clampT2=[CLAMP
-      T1]                               Clamp T1 between 0 and value
-      &quot;--&quot; can be used to terminate flag options and force all following
-      arguments to be treated as positional options
-</code></pre>
-
+    -r, --resids                      Write out residuals <span class="k">for</span> each data-point
+    -a<span class="o">[</span>ALGO<span class="o">]</span>, --algo<span class="o">=[</span>ALGO<span class="o">]</span>           Choose algorithm <span class="o">(</span>l/w/n<span class="o">)</span>
+    -i<span class="o">[</span>ITERS<span class="o">]</span>, --its<span class="o">=[</span>ITERS<span class="o">]</span>          Max iterations <span class="k">for</span> WLLS/NLLS <span class="o">(</span>default
+                                        <span class="m">15</span><span class="o">)</span>
+    -p<span class="o">[</span>CLAMP PD<span class="o">]</span>, --clampPD<span class="o">=[</span>CLAMP
+    PD<span class="o">]</span>                               Clamp PD between <span class="m">0</span> and value
+    -t<span class="o">[</span>CLAMP T1<span class="o">]</span>, --clampT2<span class="o">=[</span>CLAMP
+    T1<span class="o">]</span>                               Clamp T1 between <span class="m">0</span> and value
+    <span class="s2">&quot;--&quot;</span> can be used to terminate flag options and force all following
+    arguments to be treated as positional options
+</pre></div>
+</div>
 <p>The first line shows that DESPOT1 expects a single input image, in this case SPGR/FLASH/FFE, specified on the command line. However, if you naively run:</p>
-<pre><code class="bash">~: qidespot1 some_spgr_data.nii.gz
-</code></pre>
-
-<p>Nothing will happen. This is because most imaging formats do not store parameters that are required for quantitative imaging, e.g. the repetition time and flip-angles in their headers. QUIT programs hence expect to read this information in a text file passed to <code>stdin</code>. If you create a small text file <code>spgr.json</code> containing the following:</p>
-<pre><code class="json">{
-    &quot;SPGR&quot;: {
-        &quot;TR&quot;: 0.01,
-        &quot;FA&quot;: [3, 18]
-    }
-}
-</code></pre>
-
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~: qidespot1 some_spgr_data.nii.gz
+</pre></div>
+</div>
+<p>Nothing will happen. This is because most imaging formats do not store parameters that are required for quantitative imaging, e.g. the repetition time and flip-angles in their headers. QUIT programs hence expect to read this information in a text file passed to <code class="docutils literal notranslate"><span class="pre">stdin</span></code>. If you create a small text file <code class="docutils literal notranslate"><span class="pre">spgr.json</span></code> containing the following:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;SPGR&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <p>and run the following:</p>
-<pre><code class="bash">~: qidespot1 some_spgr_data.nii.gz &lt; spgr.json
-</code></pre>
-
-<p>then (provided your input data does contain two volumes corresponding to flip-angles 3 and 18 degrees) then DESPOT1 will run, and you should see two files created (<code>D1_T1.nii.gz</code> and <code>D1_PD.nii.gz</code>). If you want to see what the programs are doing while running, specify the <code>--verbose</code> or <code>-v</code> options.</p>
-<h2 id="common-options">Common Options</h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~: qidespot1 some_spgr_data.nii.gz &lt; spgr.json
+</pre></div>
+</div>
+<p>then - provided your input data does contain two volumes corresponding to flip-angles 3 and 18 degrees - DESPOT1 will run, and you should see two files created (<code class="docutils literal notranslate"><span class="pre">D1_T1.nii.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">D1_PD.nii.gz</span></code>). If you want to see what the programs are doing while running, specify the <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> or <code class="docutils literal notranslate"><span class="pre">-v</span></code> options.</p>
+</div>
+<div class="section" id="common-options">
+<h2>Common Options<a class="headerlink" href="#common-options" title="Permalink to this headline">¶</a></h2>
 <p>The following options are supported by most, but not necessarily all, QUIT programs.</p>
 <ul>
-<li>
-<p><code>--out, -o</code></p>
-<p>Add a prefix to the output parameter files. By default, most QUIT programs write their output files using filenames in a pattern <code>PROGRAM_PARAMETER.nii.gz</code>. They will overwrite any existing files with the same names. If you need to save the output from multiple runs of the same program, or want to save output to a particular directory, use this option to add an addtional prefix to the output names.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--out,</span> <span class="pre">-o</span></code></p>
+<blockquote>
+<div><p>Add a prefix to the output parameter files. By default, most QUIT programs write their output files using filenames in a pattern <cite>PROGRAM_PARAMETER.nii.gz</cite>. They will overwrite any existing files with the same names. If you need to save the output from multiple runs of the same program, or want to save output to a particular directory, use this option to add an addtional prefix to the output names.</p>
+</div></blockquote>
 </li>
-<li>
-<p><code>--mask, -m</code></p>
-<p>Specify a mask file, where non-zero values indicate that voxels should be processed, and zero values indicate that voxels should not be processed. The background voxels will be set to zero in the final image. This is useful for two reasons, first is to simply speed up processing for long-running programs (e.g. <code>qimcdespot</code>), second is that outside the head fitting data is non-sensical, as there is no signal. Hence these regions appear very noisy on output maps, which can make visualization difficult.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--mask,</span> <span class="pre">-m</span></code></p>
+<blockquote>
+<div><p>Specify a mask file, where non-zero values indicate that voxels should be processed, and zero values indicate that voxels should not be processed. The background voxels will be set to zero in the final image. This is useful for two reasons, first is to simply speed up processing for long-running programs (e.g. <cite>qimcdespot</cite>), second is that outside the head fitting data is non-sensical, as there is no signal. Hence these regions appear very noisy on output maps, which can make visualization difficult.</p>
+</div></blockquote>
 </li>
-<li>
-<p><code>--threads, -t</code></p>
-<p>Control the maximum number of threads used. The majority of QUIT programs are multi-threaded across voxels to improve processing times. In some parallel computing environments (e.g. Sun Grid Engine), it is possible to set the maximum number of cores available to a program, and it is hence good for CPU utilisation to match the number of threads to the number of cores. The default is 4. Note that HyperThreading may make the number of logical cores appear to be double the number of physical cores - QUIT programs are CPU bound, not IO bound, and hence gain no benefit from HyperThreading. You are better to specify the number of physical cores available rather than the number of logical cores.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--threads,</span> <span class="pre">-t</span></code></p>
+<blockquote>
+<div><p>Control the maximum number of threads used. The majority of QUIT programs are multi-threaded across voxels to improve processing times. In some parallel computing environments (e.g. Sun Grid Engine), it is possible to set the maximum number of cores available to a program, and it is hence good for CPU utilisation to match the number of threads to the number of cores. The default is 4. Note that HyperThreading may make the number of logical cores appear to be double the number of physical cores - QUIT programs are CPU bound, not IO bound, and hence gain no benefit from HyperThreading. You are better to specify the number of physical cores available rather than the number of logical cores.</p>
+</div></blockquote>
 </li>
-<li>
-<p><code>--subregion, -s</code></p>
-<p>Similar to <code>--mask</code>, this command will only process a sub-region of the input images. The argument needs to be in the format <code>"start_i,start_j,start_k,size_i,size_j,size_k"</code> where <code>i,j,k</code> are voxel indices (not physical co-ordinates). This is useful to speed up processing for trial-runs of pipelines.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--subregion,</span> <span class="pre">-s</span></code></p>
+<blockquote>
+<div><p>Similar to <cite>–mask</cite>, this command will only process a sub-region of the input images. The argument needs to be in the format <cite>“start_i,start_j,start_k,size_i,size_j,size_k”</cite> where <cite>i,j,k</cite> are voxel indices (not physical co-ordinates). This is useful to speed up processing for trial-runs of pipelines.</p>
+</div></blockquote>
 </li>
-<li>
-<p><code>--resids, -r</code></p>
-<p>Most QUIT programs will write out a single root-sum-squared residual image along with their parameter maps. Use this option to also output residuals for each data-point to look for systematic offsets. Note that if multiple inputs are specified (e.g. <code>qimcdespot</code>), then this option will write out a single cocatenated file for all input data-points in order.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--resids,</span> <span class="pre">-r</span></code></p>
+<blockquote>
+<div><p>Most QUIT programs will write out a single root-sum-squared residual image along with their parameter maps. Use this option to also output residuals for each data-point to look for systematic offsets. Note that if multiple inputs are specified (e.g. <cite>qimcdespot</cite>), then this option will write out a single cocatenated file for all input data-points in order.</p>
+</div></blockquote>
 </li>
-<li>
-<p><code>--B1, -b</code> &amp; <code>--f0, -f</code></p>
-<p>Several of the QUIT programs take B1 (relative flip-angle) and f0 (off-resonance in Hz) maps as correction factors.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--B1,</span> <span class="pre">-b</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">--f0,</span> <span class="pre">-f</span></code></p>
+<blockquote>
+<div><p>Several of the QUIT programs take B1 (relative flip-angle) and f0 (off-resonance in Hz) maps as correction factors.</p>
+</div></blockquote>
 </li>
 </ul>
-<h2 id="file-formats">File Formats</h2>
-<p>By default, QUIT is compiled with support for NIFTI and NRRD formats. The preferred file-format is NIFTI for compatibility with FSL and SPM. By default QUIT will output <code>.nii.gz</code> files. This can be controlled by the <code>QUIT_EXT</code> environment variable. Valid values for this are any file extension supported by ITK that QUIT has been compiled to support, e.g. <code>.nii</code> or <code>.nrrd</code>, or the FSL values <code>NIFTI</code>, <code>NIFTI_PAIR</code>, <code>NIFTI_GZ</code>, <code>NIFTI_PAIR_GZ</code>.</p>
-<p>The <a href="http://itk.org">ITK</a> library supports a much wider variety of file formats, but adding support for all of these almost triples the size of the compiled binaries. Hence by default they are excluded. You can add support for more file formats by compiling QUIT yourself, see the <a href="Developer/">developer documentation</a>. Note that ITK cannot write every format it can read (e.g. it can read Bruker 2dseq datasets, but it cannot write them).</p>
-<h2 id="scripting">Scripting</h2>
-<p>The QUIT tools are designed to be used inside shell scripts or SGE jobs. 3 scripts are provided along with the binaries. <code>qi_composer.sh</code> uses the <code>qi_coil_combine</code> program to correctly combine complex data from multiple element RF coils. <code>qi_example_mcd_b1.sh</code> and <code>qi_example_mcd_hifi.sh</code> give example mcDESPOT processing pipelines. The first assumes that you have a good B1 map and have already registered all the input volumes to a common reference. The second shows one of doing this using FSL. Registration is beyond the scope of QUIT, so you must have additional tools installed for this.</p></div>
-        </div>
-
-        <footer class="col-md-12">
-            <hr>
-                <p>Copyright &copy; 2018 Tobias Wood tobias.wood@kcl.ac.uk</p>
-            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script>var base_url = '.';</script>
-        <script src="./js/base.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script src="./search/require.js"></script>
-        <script src="./search/search.js"></script>
-
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-            </div>
-            <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td><kbd>&larr;</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td><kbd>&rarr;</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+</div>
+<div class="section" id="file-formats">
+<h2>File Formats<a class="headerlink" href="#file-formats" title="Permalink to this headline">¶</a></h2>
+<p>By default, QUIT is compiled with support for NIFTI and NRRD formats. The preferred file-format is NIFTI for compatibility with FSL and SPM. By default QUIT will output <code class="docutils literal notranslate"><span class="pre">.nii.gz</span></code> files. This can be controlled by the <cite>QUIT_EXT</cite> environment variable. Valid values for this are any file extension supported by ITK that QUIT has been compiled to support, e.g. <code class="docutils literal notranslate"><span class="pre">.nii</span></code> or <code class="docutils literal notranslate"><span class="pre">.nrrd</span></code>, or the FSL values <code class="docutils literal notranslate"><span class="pre">NIFTI</span></code>, <code class="docutils literal notranslate"><span class="pre">NIFTI_PAIR</span></code>, <code class="docutils literal notranslate"><span class="pre">NIFTI_GZ</span></code>, <code class="docutils literal notranslate"><span class="pre">NIFTI_PAIR_GZ</span></code>.</p>
+<p>The <a class="reference external" href="http://itk.org">ITK</a> library supports a much wider variety of file formats, but adding support for all of these almost triples the size of the compiled binaries. Hence by default they are excluded. You can add support for more file formats by compiling QUIT yourself, see the <a class="reference internal" href="Docs/Developer.html"><span class="doc">Developer</span></a> documentation. Note that ITK cannot write every format it can read (e.g. it can read Bruker 2dseq datasets, but it cannot write them).</p>
+</div>
+<div class="section" id="scripting">
+<h2>Scripting<a class="headerlink" href="#scripting" title="Permalink to this headline">¶</a></h2>
+<p>The QUIT tools are designed to be used inside shell scripts or SGE jobs. 3 scripts are provided along with the binaries. <code class="docutils literal notranslate"><span class="pre">qi_composer.sh</span></code> uses the <code class="docutils literal notranslate"><span class="pre">qi_coil_combine</span></code> program to correctly combine complex data from multiple element RF coils. <code class="docutils literal notranslate"><span class="pre">qi_example_mcd_b1.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">qi_example_mcd_hifi.sh</span></code> give example mcDESPOT processing pipelines. The first assumes that you have a good B1 map and have already registered all the input volumes to a common reference. The second shows one of doing this using FSL. Registration is beyond the scope of QUIT, so you must have additional tools installed for this.</p>
+</div>
 </div>
 
 
-    </body>
-</html>
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Docs/Contents.html" class="btn btn-neutral float-right" title="Categories" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
 
-<!--
-MkDocs version : 0.17.3
-Build Date UTC : 2018-06-28 19:49:30
--->
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Tobias Wood.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

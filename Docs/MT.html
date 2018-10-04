@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Magnetization Transfer &mdash; QUIT  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SSFP" href="SSFP.html" />
+    <link rel="prev" title="Perfusion" href="Perfusion.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> QUIT
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="Contents.html">Categories</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Relaxometry.html">Relaxometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Perfusion.html">Perfusion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Magnetization Transfer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qi-lineshape">qi_lineshape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qi-qmt">qi_qmt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qi-zspec-interp">qi_zspec_interp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qi-lorentzian">qi_lorentzian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qi-dipolar-mtr-sh">qi_dipolar_mtr.sh</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SSFP.html">SSFP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Susceptibility.html">Susceptibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Stats.html">Statistics / GLM Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Developer.html">Developer</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QUIT</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Contents.html">Categories</a> &raquo;</li>
+        
+      <li>Magnetization Transfer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Docs/MT.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="magnetization-transfer">
+<h1>Magnetization Transfer<a class="headerlink" href="#magnetization-transfer" title="Permalink to this headline">¶</a></h1>
+<p>MR voxels often contain complex microstructure with multiple different components or pools, each with unique relaxation properties. It is possible for magnetization to be transferred between these pools via several mechanisms, such as exchange of individual protons or entire molecules, or simple dipolar coupling from molecules that are in close proximity. These mechanisms can be studied in the related fields of Magnetization Transfer (MT) and Chemical Exchange Saturation Transfer (CEST). QUIT currently contains some basic CEST analysis tools and one for calculating simple dipolar/inhomogeneous MT ratios.</p>
+<p>In addition a tool is provided for calculating qMT parameters from SSFP data. This is in the <a class="reference internal" href="SSFP.html"><span class="doc">SSFP</span></a> module.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#qi-lineshape">qi_lineshape</a></li>
+<li><a class="reference internal" href="#qi-qmt">qi_qmt</a></li>
+<li><a class="reference internal" href="#qi-zspec-interp">qi_zspec_interp</a></li>
+<li><a class="reference internal" href="#qi-lorentzian">qi_lorentzian</a></li>
+<li><a class="reference internal" href="#qi-dipolar-mtr-sh">qi_dipolar_mtr.sh</a></li>
+</ul>
+<div class="section" id="qi-lineshape">
+<h2>qi_lineshape<a class="headerlink" href="#qi-lineshape" title="Permalink to this headline">¶</a></h2>
+<p>A utility to sample lineshapes and write them out to files, which can then be read by <a class="reference internal" href="#qi-qmt">qi_qmt</a> and interpolated values used instead of calculating the lineshape during fitting. This is used principally to speed up fitting the Super-Lorentzian lineshape, which takes a long time to calculate but is smoothly valued, so can be accurately approximated using interpolation. The lineshape definitions are the same as those in <a class="reference external" href="https://github.com/neuropoly/qmrlab">qMRLab</a>.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_lineshape --lineshape<span class="o">=</span>SuperLorentzian --frq_start<span class="o">=</span><span class="m">500</span> --frq_space<span class="o">=</span><span class="m">500</span> --frq_count<span class="o">=</span><span class="m">150</span> &gt; superlorentz.json
+</pre></div>
+</div>
+<p>No input file required. Output is to <code class="docutils literal notranslate"><span class="pre">stdout</span></code> in JSON format, so should be redirected into a file for further use.</p>
+<p><strong>Important Options</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--lineshape,</span> <span class="pre">-l</span></code></p>
+<blockquote>
+<div><p>Choose from a Gaussian, a Lorentzian or the Super-Lorentzian</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--T2b,</span> <span class="pre">-t</span></code></p>
+<blockquote>
+<div><p>Specify the nominal T2 of the lineshape. During fitting in <a class="reference internal" href="#qi-qmt">qi_qmt</a> scaling will be used to find the actual value. Should be specified in seconds.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--frq_count</span></code>, <code class="docutils literal notranslate"><span class="pre">--frq_start</span></code>, <code class="docutils literal notranslate"><span class="pre">--frq_space</span></code></p>
+<blockquote>
+<div><p>These Control the position and number of samples to take on the lineshape. <code class="docutils literal notranslate"><span class="pre">frq_start</span></code> and <code class="docutils literal notranslate"><span class="pre">frq_space</span></code> should be in Hertz.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="qi-qmt">
+<h2>qi_qmt<a class="headerlink" href="#qi-qmt" title="Permalink to this headline">¶</a></h2>
+<p>Calculates Quantitative Magnetization Transfer parameters using the Ramani model from steady-state gradient-echo data acquired with multiple off-resonance saturation pulses. A massive thank you to Erika Raven, Mara Cercignani for helping get this working.</p>
+<img alt="Bound Pool Fraction" src="../_images/f_b.png" />
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_qmt --verbose MTSatData.nii.gz T1.nii.gz --mask brain_mask.nii.gz --lineshape<span class="o">=</span>superlorentz.json --B1<span class="o">=</span>B1_map.nii.gz --f0<span class="o">=</span>B0_map.nii.gz &lt; input.json
+</pre></div>
+</div>
+<p>Note that a T1 map is a required input to stabilise the fitting.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;MTSat&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span><span class="p">:</span> <span class="mf">0.055</span><span class="p">,</span>
+        <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="nt">&quot;sat_f0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">56360</span><span class="p">,</span> <span class="mi">47180</span><span class="p">,</span> <span class="mi">12060</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2750</span><span class="p">,</span> <span class="mi">2770</span><span class="p">,</span> <span class="mi">2790</span><span class="p">,</span> <span class="mi">2890</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span>
+        <span class="nt">&quot;sat_angle&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">332</span><span class="p">,</span> <span class="mi">628</span><span class="p">,</span> <span class="mi">628</span><span class="p">,</span> <span class="mi">332</span><span class="p">,</span> <span class="mi">333</span><span class="p">,</span> <span class="mi">628</span><span class="p">,</span> <span class="mi">628</span><span class="p">,</span> <span class="mi">628</span><span class="p">,</span> <span class="mi">628</span><span class="p">,</span> <span class="mi">628</span><span class="p">,</span> <span class="mi">628</span><span class="p">],</span>
+        <span class="nt">&quot;pulse&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Gauss&quot;</span><span class="p">,</span> <span class="nt">&quot;Trf&quot;</span><span class="p">:</span> <span class="mf">0.015</span><span class="p">,</span> <span class="nt">&quot;p1&quot;</span><span class="p">:</span> <span class="mf">0.416</span><span class="p">,</span> <span class="nt">&quot;p2&quot;</span><span class="p">:</span> <span class="mf">0.295</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Trf</span></code> is the pulse-width (RF Time). <code class="docutils literal notranslate"><span class="pre">p1</span></code> and <code class="docutils literal notranslate"><span class="pre">p2</span></code> are the ratio of the integral of <span class="math notranslate nohighlight">\(B_1\)</span> and <span class="math notranslate nohighlight">\(B_1^2\)</span> (the integrals of the pulse amplitude and the square of the pulse amplitude) to the maximum amplitude of the pulse. Both <code class="docutils literal notranslate"><span class="pre">Trf</span></code> and <code class="docutils literal notranslate"><span class="pre">TR</span></code> should be in seconds. <code class="docutils literal notranslate"><span class="pre">sat_f0</span></code> is in Hertz.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">QMT_f_b.nii.gz</span></code> - The bound pool fraction</li>
+<li><code class="docutils literal notranslate"><span class="pre">QMT_k_bf.nii.gz</span></code> - The forward exchange rate from bound to free pool</li>
+<li><code class="docutils literal notranslate"><span class="pre">QMT_T1_f.nii.gz</span></code> - T1 of the free pool</li>
+<li><code class="docutils literal notranslate"><span class="pre">QMT_T2_f.nii.gz</span></code> - T2 of the free pool</li>
+<li><code class="docutils literal notranslate"><span class="pre">QMT_T2_b.nii.gz</span></code> - T2 of the bound pool</li>
+<li><code class="docutils literal notranslate"><span class="pre">QMT_PD.nii.gz</span></code> - The apparent Proton Density / size of the free pool</li>
+</ul>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">T1_b</span></code>, the longitudinal relaxation rate of the bound pool, is fixed to 1 second in this model and so is not written out.</p>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://linkinghub.elsevier.com/retrieve/pii/S0730725X02005982">Ramani et al</a></li>
+</ul>
+</div>
+<div class="section" id="qi-zspec-interp">
+<h2>qi_zspec_interp<a class="headerlink" href="#qi-zspec-interp" title="Permalink to this headline">¶</a></h2>
+<p>Interpolates a Z-spectrum to arbitrary precision. Can output asymmetry values instead of a Z-spectrum.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_zspec_interp zspectrum.nii.gz --f0<span class="o">=</span>LTZ_f0.nii.gz &lt; input.json
+</pre></div>
+</div>
+<p>The off-resonance map units must match the input frequencies (e.g. either PPM or Hertz)</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;input_freqs&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">-5</span><span class="p">,</span> <span class="mf">-2.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="nt">&quot;output_freqs&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">-5</span><span class="p">,</span> <span class="mi">-4</span><span class="p">,</span> <span class="mi">-3</span><span class="p">,</span> <span class="mi">-2</span><span class="p">,</span> <span class="mi">-1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">input_freqs</span></code> are the offset frequencies the Z-spectrum was acquired at. <code class="docutils literal notranslate"><span class="pre">output_freqs</span></code> are the frequencies you want the asymmetry calculated at.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">{input}_interp.nii.gz</span></code> The interpolated Z-spectrum.</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--f0,</span> <span class="pre">-f</span></code></p>
+<blockquote>
+<div><p>Specify an off-resonance map. Units must be the same as the input &amp; asymmetry frequencies.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">-O,</span> <span class="pre">--order</span></code></p>
+<blockquote>
+<div><p>The order of Spline interpolation used. Default is 3 (cubic).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">-a,</span> <span class="pre">--asym</span></code></p>
+<blockquote>
+<div><p>Output asymmetry (:math`Z(+f) - Z(-f)`) values.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="qi-lorentzian">
+<h2>qi_lorentzian<a class="headerlink" href="#qi-lorentzian" title="Permalink to this headline">¶</a></h2>
+<p>Fits a single Lorentzian to a Z-spectrum for B0 correction. Currently hard-coded to only fit the spectrum between +/-2ppm to avoid background MT contamination.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_lorentzian zspectrum.nii.gz &lt; input.json
+</pre></div>
+</div>
+<p>The Z-spectrum must be a 4D file with each volume acquired at a different offset frequency.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;freq&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">-5</span><span class="p">,</span> <span class="mi">-4</span><span class="p">,</span> <span class="mi">-3</span><span class="p">,</span> <span class="mi">-2</span><span class="p">,</span> <span class="mi">-1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>These are the offset frequencies for each volume in the Z-spectrum input.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">LTZ_f0.nii.gz</span></code>  - The center frequency of the fitted Lorentzian.</li>
+<li><code class="docutils literal notranslate"><span class="pre">LTZ_w.nii.gz</span></code>   - The width of the fitted Lorentzian.</li>
+<li><code class="docutils literal notranslate"><span class="pre">LTZ_sat.nii.gz</span></code> - The saturation ratio of the fitted Lorentzian.</li>
+<li><code class="docutils literal notranslate"><span class="pre">LTZ_PD.nii.gz</span></code>  - The apparent Proton Density of the fitted Lorentzian.</li>
+</ul>
+</div>
+<div class="section" id="qi-dipolar-mtr-sh">
+<h2>qi_dipolar_mtr.sh<a class="headerlink" href="#qi-dipolar-mtr-sh" title="Permalink to this headline">¶</a></h2>
+<p>Calculates dipolar/inhomogeneous Magnetization Transfer Ratios (MTRs). Dipolar/inhomogeneous MT is a new (see note) contrast mechanism that is present in highly structured materials such as myelin and tendon. By applying off-resonance saturation at both positive and negative frequencies (instead of only one side as in classic MTR) it is possible to decouple the dipolar pool and hence produce an enhanced Magnetization Transfer (eMT) effect. The different between eMT and normal MT is the dipolar/inhomogeneous MT and is potentially highly specific to myelin within the brain.</p>
+<p>Although the majority of the existing literature refers to this effect as inhomogeneous MT, this name was chosen before the physical phenomena underlying the effect was well understood. Current theory does not rely on inhomogeneous effects at all, so the name is a misnomer.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_dipolar_mtr dipolar_mt_volumes.nii.gz
+</pre></div>
+</div>
+<p>The input must consist of 5 volumes: Dipolar +/-, Dipolar -/+, Unsaturated, MT+, MT-. This scheme is not flexible and will be improved in a future version.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">DMT_mtr.nii.gz</span></code> - The classic MTR, expressed as a percentage</li>
+<li><code class="docutils literal notranslate"><span class="pre">DMT_emtr.nii.gz</span></code> - The enhanced MTR, expressed as a percentage</li>
+<li><code class="docutils literal notranslate"><span class="pre">DMT_dmtr.nii.gz</span></code> - The dipolar MTR, expressed as a percentage. This is the difference between eMTR and MTR.</li>
+<li><code class="docutils literal notranslate"><span class="pre">DMT_mta.nii.gz</span></code> - The first-order MT-asymmetry (MT- subtracted from MT+, relative to unsaturated, in percent).</li>
+</ul>
+<p><strong>References</strong></p>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.25174">Original full paper</a></li>
+<li><a class="reference external" href="https://doi.org/10.1016/j.jmr.2016.11.013">Dipolar versus inhomogeneous naming</a></li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="SSFP.html" class="btn btn-neutral float-right" title="SSFP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Perfusion.html" class="btn btn-neutral" title="Perfusion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Tobias Wood.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

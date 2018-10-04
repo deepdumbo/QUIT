@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Susceptibility &mdash; QUIT  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Statistics / GLM Tools" href="Stats.html" />
+    <link rel="prev" title="SSFP" href="SSFP.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> QUIT
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="Contents.html">Categories</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Relaxometry.html">Relaxometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Perfusion.html">Perfusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MT.html">Magnetization Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SSFP.html">SSFP</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Susceptibility</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qi-unwrap-path">qi_unwrap_path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qi-unwrap-laplace">qi_unwrap_laplace</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Stats.html">Statistics / GLM Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Developer.html">Developer</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QUIT</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Contents.html">Categories</a> &raquo;</li>
+        
+      <li>Susceptibility</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Docs/Susceptibility.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="susceptibility">
+<h1>Susceptibility<a class="headerlink" href="#susceptibility" title="Permalink to this headline">¶</a></h1>
+<p>Susceptibility is a fundamental magnetic property of a material, and determines whether materials are paramagnetic (positive susceptibility) or diamagnetic (negative susceptibility). Quantitative Susceptibility Mapping (QSM) is a branch of MRI that aims to measure the susceptiblity of objects from the phase of the MR data. QUIT currently does not contain a full QSM processing pipeline, but does contain some phase unwrapping tools.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#qi-unwrap-path">qi_unwrap_path</a></li>
+<li><a class="reference internal" href="#qi-unwrap-laplace">qi_unwrap_laplace</a></li>
+</ul>
+<div class="section" id="qi-unwrap-path">
+<h2>qi_unwrap_path<a class="headerlink" href="#qi-unwrap-path" title="Permalink to this headline">¶</a></h2>
+<p>An implementation of the quality-guided path-based unwrapping of Abdul-Rahman et al. This is the recommended method to use (preferable over Laplacian).</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_unwrap_path phase_file.nii.gz
+</pre></div>
+</div>
+<p>The phase file must be specified in radians (i.e. between <span class="math notranslate nohighlight">\(-\pi\)</span> and <span class="math notranslate nohighlight">\(+\pi\)</span>). Does not read input from <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, and currently there are no arguments to control the algorithms behaviour.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">input_unwrapped.nii.gz</span></code> - The unwrapped phase value, in radians.</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://ao.osa.org/abstract.cfm?URI=ao-46-26-6623">Abdul-Rahman et al 1</a></li>
+<li><a class="reference external" href="http://ao.osa.org/abstract.cfm?URI=ao-48-23-4582">Abdul-Rahman et al 2</a></li>
+</ul>
+</div>
+<div class="section" id="qi-unwrap-laplace">
+<h2>qi_unwrap_laplace<a class="headerlink" href="#qi-unwrap-laplace" title="Permalink to this headline">¶</a></h2>
+<p>Implements Laplacian-based phase-unwrapping. Along with phase-unwrapping, the Laplacian method implicitly removes background fields. This means it can alter phase values in undesirable ways and hence is not the preferred method.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_unwrap_laplace phase_file.nii.gz
+</pre></div>
+</div>
+<p>The phase file must be specified in radians (i.e. between -pi and +pi). Does not read input from <cite>stdin</cite>.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">input_unwrapped.nii.gz</span></code> The unwrapped phase, in radians.</li>
+</ul>
+<p><strong>Important Options</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--mask,</span> <span class="pre">-m</span></code></p>
+<blockquote>
+<div><p>Specify a mask, the phase will only be unwrapped inside this.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--erode,</span> <span class="pre">-e</span></code></p>
+<blockquote>
+<div><p>Radius to erode the input mask by (default 1 mm).</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://linkinghub.elsevier.com/retrieve/pii/S0730725X12000124">Bakker et al</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Stats.html" class="btn btn-neutral float-right" title="Statistics / GLM Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="SSFP.html" class="btn btn-neutral" title="SSFP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Tobias Wood.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

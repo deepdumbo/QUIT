@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Developer &mdash; QUIT  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Utilities" href="Utilities.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> QUIT
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="Contents.html">Categories</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Relaxometry.html">Relaxometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Perfusion.html">Perfusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MT.html">Magnetization Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SSFP.html">SSFP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Susceptibility.html">Susceptibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Stats.html">Statistics / GLM Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Utilities.html">Utilities</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Developer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-requirements">Basic Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-gcc-7">Installing GCC 7</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#external-libraries">External Libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compilation">Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-formats">File Formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-modelfitfilter">The ModelFitFilter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-qidespot1">Example: <code class="docutils literal notranslate"><span class="pre">qidespot1</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QUIT</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Contents.html">Categories</a> &raquo;</li>
+        
+      <li>Developer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Docs/Developer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="developer">
+<h1>Developer<a class="headerlink" href="#developer" title="Permalink to this headline">¶</a></h1>
+<p>Below are a few introductory notes for anyone who wants to compile QUIT from source or might be interested in contributing to QUIT. Although I hope that most QUIT code is fairly clear, the following is provided to give a high-level overview of how most QUIT programs are structured.</p>
+<div class="section" id="basic-requirements">
+<h2>Basic Requirements<a class="headerlink" href="#basic-requirements" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>A C++17 compliant compiler (GCC 7.0.0+, Clang 3.9+)</li>
+<li>CMake version 3.10.2 or higher (<a class="reference external" href="http://www.cmake.org">http://www.cmake.org</a>)</li>
+</ol>
+<p>WARNING - You will require a recent compiler for QUIT as it uses C++17 features. On Mac simply having the most recent software updates is enough, on Linux you will need GCC 7.0.0. No one has been brave enough to compile QUIT on Windows to date.</p>
+</div>
+<div class="section" id="installing-gcc-7">
+<h2>Installing GCC 7<a class="headerlink" href="#installing-gcc-7" title="Permalink to this headline">¶</a></h2>
+<p>Most Linux systems currently ship with GCC 4.8 or lower as their system compiler. As of QUIT 2.1 you will require GCC 7 as QUIT uses C++17 features. Joost Kuijer has kindly provided the following recipe for installing newer GCC versions in a user directory and using it to compile QUIT.</p>
+<ol class="arabic">
+<li><p class="first">Follow the GCC guide here: <a class="reference external" href="https://gcc.gnu.org/wiki/InstallingGCC">https://gcc.gnu.org/wiki/InstallingGCC</a></p>
+</li>
+<li><dl class="first docutils">
+<dt>Before running the <code class="docutils literal notranslate"><span class="pre">build.sh</span></code> script let cmake know about the new compiler</dt>
+<dd><div class="first last highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/GCC-7.0.0/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$HOME</span>/GCC-7.0.0/lib:<span class="nv">$HOME</span>/GCC-7.0.0/lib64:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span><span class="nv">$HOME</span>/GCC-7.0.0/bin/gcc
+<span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span><span class="nv">$HOME</span>/GCC-7.0.0/bin/g++
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Before executing the compiled code also do (you can add this line to your <cite>.bashrc</cite> file:</dt>
+<dd><div class="first last highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$HOME</span>/GCC-7.0.0/lib:<span class="nv">$HOME</span>/GCC-7.0.0/lib64:<span class="nv">$LD_LIBRARY_PATH</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="external-libraries">
+<h2>External Libraries<a class="headerlink" href="#external-libraries" title="Permalink to this headline">¶</a></h2>
+<p>QUIT is built using several C++ libraries. These are currently included in the project as git submodules. The easiest way to initialise these is with the <code class="docutils literal notranslate"><span class="pre">easy_build.sh</span></code> script. However, if you are already have some of them available you may wish to not run the script and instead configure them yourself. This is discussed further below. The libraries are:</p>
+<ul>
+<li><p class="first"><a class="reference external" href="http://eigen.tuxfamily.org">Eigen</a></p>
+<blockquote>
+<div><p>A high performace linear algebra library. Used for all signal equations in QUIT.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="http://ceres-solver.org">Ceres</a></p>
+<blockquote>
+<div><p>A high performace, high quality collection of non-linear least squares solvers.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="http://itk.org">ITK</a></p>
+<blockquote>
+<div><p>The Insight Tool-Kit. This is intended as a registration library for medical images. Although the registration features are not used in QUIT, the overall framework is extremely useful. In particular, ITK reads a large variety of common file-formats, and all ITK filters automatically check that their inputs share a common space / co-ordinate definition. This single feature alone prevents the vast majority of easy user mistakes - e.g. trying to use a B1 map that has a different voxel spacing to the input data.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
+<p>If you are unfamiliar with C++/CMake/git etc. a script is provided that should be able to build the tools provided the right software is available on your system. To use it, in a terminal window, change directory to where you unpacked QUIT. Then type <code class="docutils literal notranslate"><span class="pre">./easy_build.sh</span></code>. This should correctly checkout the git repositories for each external library, build Ceres and ITK, and then configure and build QUIT.</p>
+<p>If you are familiar with C++/CMake/git etc. then compiling QUIT should be straightforward. The rough steps are:</p>
+<ol class="arabic simple">
+<li>Ensure you have all the libraries above available. If you do not have system versions, then run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">init;</span> <span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">update</span></code> in the QUIT directory.</li>
+<li>Compile the Ceres library. Make sure it uses the same version of Eigen that you will use for QUIT.</li>
+<li>Compile ITK following their instructions.</li>
+<li>Create a build directory for QUIT and use cmake/ccmake to configure the project. Specify the paths to the library when prompted. It is likely that CMake will report an error on the first ‘Configure’ attempt if it cannot locate Eigen, specify the correct directory and run the configure step again.</li>
+<li>Compile QUIT.</li>
+</ol>
+</div>
+<div class="section" id="file-formats">
+<h2>File Formats<a class="headerlink" href="#file-formats" title="Permalink to this headline">¶</a></h2>
+<p>The available file formats are controlled by the main <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> in the root QUIT directory, by listing them as <code class="docutils literal notranslate"><span class="pre">COMPONENTS</span></code> in the ITK <code class="docutils literal notranslate"><span class="pre">find_package()</span></code> step. Add any additional file formats you wish to use here.</p>
+</div>
+<div class="section" id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<p>QUIT programs are tested using the <a class="reference external" href="http://github.com/bats-core/bats-core">Bash Automated Test System</a>, which is included as a git submodule. To run the tests, point BATS at the Tests directory, e.g. <code class="docutils literal notranslate"><span class="pre">path/to/bats</span> <span class="pre">QUIT/Test</span></code>, which will run all of the tests. It is possible to run the test files individually as well. It was decided to use BATS instead of a unit-test based framework because this allows the QUIT programs to be tested as a whole, including command-line arguments.</p>
+<p>Most QUIT programs are tested by generating ground-truth parameter files with <code class="docutils literal notranslate"><span class="pre">qinewimage</span></code>, feeding these into <code class="docutils literal notranslate"><span class="pre">qisignal</span></code> to generate simulated MR images with added noise, and then running the particular QUIT program to calculate some parameter maps, then comparing these to the ground-truth with <code class="docutils literal notranslate"><span class="pre">qidiff</span></code>. <code class="docutils literal notranslate"><span class="pre">qidiff</span></code> calculates figure-of-merit based on noise factors, i.e. they are a measure of how much the signal noise is amplified in the final maps. In this way the tests also serve to illustrate the quality of the methods as well as whether the programs run correctly. For programs where a ground-truth image cannot be generated easily, the tests at least ensure that the program runs and does not crash.</p>
+</div>
+<div class="section" id="the-modelfitfilter">
+<h2>The ModelFitFilter<a class="headerlink" href="#the-modelfitfilter" title="Permalink to this headline">¶</a></h2>
+<p>The core part of QUIT is the <code class="docutils literal notranslate"><span class="pre">ModelFitFilter</span></code> and its dependent type <code class="docutils literal notranslate"><span class="pre">FitFunction</span></code>, found in <code class="docutils literal notranslate"><span class="pre">Source/Core/</span></code>. This is a sub-class of the ITK <code class="docutils literal notranslate"><span class="pre">ImageToImageFilter</span></code>. The vast majority of QUIT programs declare an <cite>Model</cite> and <cite>FitFunction</cite> sub-class and use these to process the data. <code class="docutils literal notranslate"><span class="pre">ModelFitFilter</span></code> abstracts out most of the heavy lifting of extracting voxel-wise data from multiple inputs and writing it out to multiple outputs, leaving the <code class="docutils literal notranslate"><span class="pre">FitFunction</span></code> to process a single-voxel. A <code class="docutils literal notranslate"><span class="pre">Model</span></code> defines the number of expected inputs and their size, the number of fixed &amp; varying parameters, and the number of outputs.</p>
+</div>
+<div class="section" id="example-qidespot1">
+<h2>Example: <code class="docutils literal notranslate"><span class="pre">qidespot1</span></code><a class="headerlink" href="#example-qidespot1" title="Permalink to this headline">¶</a></h2>
+<p>The structure of <code class="docutils literal notranslate"><span class="pre">qidespot1</span></code> is similar to most QUIT programs, and is a good example of most features. At the start are the includes (obviously). After that several <code class="docutils literal notranslate"><span class="pre">FitFunction</span></code> subclasses are defined, as well as a Ceres cost-function. The Ceres documentation is excellent, so refer to that for more information. After all the <code class="docutils literal notranslate"><span class="pre">FitFunction</span></code> classes are defined, the main program body begins. At the start of the program, all the command-line options are defined and then parsed. Then the various inputs are read and passed to the <code class="docutils literal notranslate"><span class="pre">ModelFitFilter</span></code>, which is then updated. Finally, the outputs are written back to disk.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="Utilities.html" class="btn btn-neutral" title="Utilities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Tobias Wood.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

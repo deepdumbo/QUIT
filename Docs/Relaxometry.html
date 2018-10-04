@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Relaxometry &mdash; QUIT  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Perfusion" href="Perfusion.html" />
+    <link rel="prev" title="Categories" href="Contents.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> QUIT
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="Contents.html">Categories</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Relaxometry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qidespot1">qidespot1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qidespot1hifi">qidespot1hifi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qidespot2">qidespot2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qidespot2fm">qidespot2fm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qimcdespot">qimcdespot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qimp2rage">qimp2rage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qimultiecho">qimultiecho</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qiafi">qiafi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qidream">qidream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Perfusion.html">Perfusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MT.html">Magnetization Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SSFP.html">SSFP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Susceptibility.html">Susceptibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Stats.html">Statistics / GLM Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Developer.html">Developer</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QUIT</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Contents.html">Categories</a> &raquo;</li>
+        
+      <li>Relaxometry</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Docs/Relaxometry.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="relaxometry">
+<h1>Relaxometry<a class="headerlink" href="#relaxometry" title="Permalink to this headline">¶</a></h1>
+<p>Relaxometry is the measurement of the longitudinal and transverse relaxation times T&lt;sub&gt;1&lt;/sub&gt; and T&lt;sub&gt;2&lt;/sub&gt;. There are a multitude of different techniques for measuring both. The main focus of QUIT has been on the Driven-Equilibrium Single-Pulse Observation of T&lt;sub&gt;1&lt;/sub&gt; (DESPOT1) family of techniques, but the classic multi-echo T&lt;sub&gt;2&lt;/sub&gt; method and the more recent MP2RAGE T&lt;sub&gt;1&lt;/sub&gt; measurement method are also implemented, along with the AFI and DREAM B1 mapping methods.</p>
+<p>The following programs are available:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#qidespot1">qidespot1</a></li>
+<li><a class="reference internal" href="#qidespot1hifi">qidespot1hifi</a></li>
+<li><a class="reference internal" href="#qidespot2">qidespot2</a></li>
+<li><a class="reference internal" href="#qidespot2fm">qidespot2fm</a></li>
+<li><a class="reference internal" href="#qimcdespot">qimcdespot</a></li>
+<li><a class="reference internal" href="#qimultiecho">qimultiecho</a></li>
+<li><a class="reference internal" href="#qimp2rage">qimp2rage</a></li>
+<li><a class="reference internal" href="#qiafi">qiafi</a></li>
+<li><a class="reference internal" href="#qidream">qidream</a></li>
+</ul>
+<div class="section" id="qidespot1">
+<h2>qidespot1<a class="headerlink" href="#qidespot1" title="Permalink to this headline">¶</a></h2>
+<p>This program implements the classic Driven Equilibrium Single-Pulse Observation of T1 (DESPOT1) algorithm, also known as the Variable Flip-Angle (VFA) method in the literature. This is a fast way to measure longitudinal relaxation using a spoiled steady-state sequence, which is know by a different name by every scanner manufacturer just to be helpful. On GE, it’s SPoiled Gradient Recalled echo (SPGR), on Siemens it’s Fast Low-Angle SHot (FLASH) and on Phillips the sequence is Fast Field Echo (FFE).</p>
+<img alt="A T1 map" src="../_images/T1_slices.png" />
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qidespot1 input_file.nii.gz --mask<span class="o">=</span>mask_file.nii.gz --B1<span class="o">=</span>b1_file.nii.gz &lt; input.json
+</pre></div>
+</div>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;SPGR&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">D1_T1.nii.gz</span></code> - The T1 map. Units are the same as those used for TR in the input.</li>
+<li><code class="docutils literal notranslate"><span class="pre">D1_PD.nii.gz</span></code> - The apparent Proton Density map. No units.</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--B1,</span> <span class="pre">-b</span></code></p>
+<blockquote>
+<div><p>Specify an effective flip-angle or B1 map. This must be expressed as a fraction, e.g. a value of 1 in a voxel implies the nominal flip-angle was achieved.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--algo,</span> <span class="pre">-a</span></code></p>
+<blockquote>
+<div><p>This specifies which precise algorithm to use. There are 3 choices, classic linear least-squares (l), weighted linear least-squares (w), and non-linear least-squares (n). If you only have 2 flip-angles then LLS is the only meaningful choice. The other 2 choices should produce better (less noisy, more accurate) T1 maps when you have more input flip-angles. WLLS is faster than NLLS for the same number of iterations. However, modern processors are sufficiently powerful that the difference is bearable. Hence NLLS is recommended for the highest possible quality.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://pubs.acs.org/doi/abs/10.1021/j100612a022">Christen et al, the original paper</a></li>
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.21669">Chang et al, Weighted Least Squares Fitting</a></li>
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.25592">Wood, Optimum Flip-Angle Formulas</a></li>
+</ul>
+</div>
+<div class="section" id="qidespot1hifi">
+<h2>qidespot1hifi<a class="headerlink" href="#qidespot1hifi" title="Permalink to this headline">¶</a></h2>
+<p>This is an extension of DESPOT1 to fit a map simultaneously using an MP-RAGE / IR-SPGR type sequence. Although DESPOT1-HIFI can produce a rough estimate of B1, it often fails to produce reasonable values in the ventricles, and the fact that the MP-RAGE image is often acquired at lower resolution than the SPGR/FLASH data can also cause problems. Hence you should either smooth the B1 map produced as output, or fit it with a polynomial (<a class="reference internal" href="Utilities.html"><span class="doc">Utilities</span></a>), then recalculate T1 using the <a class="reference internal" href="#qidespot1">qidespot1</a> program. Note that if your MP-RAGE image is not acquired at the same resolution as your SPGR data, it must be resampled to the same spacing before processing (and it should also be registered to your SPGR data).</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qidespot1hifi spgr_file.nii.gz irspgr_file.nii.gz --mask<span class="o">=</span>mask_file.nii.gz &lt; input.json
+</pre></div>
+</div>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;SPGR&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;MPRAGE&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="nt">&quot;TR&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="nt">&quot;TI&quot;</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span>
+        <span class="nt">&quot;TD&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&quot;eta&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&quot;ETL&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+        <span class="nt">&quot;k0&quot;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For the MPRAGE sequence, the TR is the spacing between readouts/echoes, not the overall segment TR. TI is the Inversion Time, and TD is the Delay Time after the echo-train (often 0). Eta is the Inversion Efficiency, which should be set to 1. ETL is the Echo-Train Length - usually the number of phase encode steps in one segment. k0 defines the position in the echo-train that the center line of k-space is acquired. This is 0 for centric acquisition and ETL/2 for linear.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">HIFI_T1.nii.gz</span></code> - The T1 map. Units are the same as those used for TR in the input.</li>
+<li><code class="docutils literal notranslate"><span class="pre">HIFI_PD.nii.gz</span></code> - The apparent Proton Density map. No units.</li>
+<li><code class="docutils literal notranslate"><span class="pre">HIFI_B1.nii.gz</span></code> - The relative flip-angle map.</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/jmri.21130">Original HIFI Paper</a></li>
+</ul>
+</div>
+<div class="section" id="qidespot2">
+<h2>qidespot2<a class="headerlink" href="#qidespot2" title="Permalink to this headline">¶</a></h2>
+<p>DESPOT2 uses SSFP data and a separate T1 map to calculate T2, using the same maths as DESPOT1. It does not account for the banding artefacts present in SSFP data at field-strengths of 3T and above. See <a class="reference internal" href="#qidespot2fm">qidespot2fm</a> for a method that does account for them, or if you have at least 4 phase-increments and complex data then see <a class="reference internal" href="SSFP.html"><span class="doc">SSFP</span></a> for a way to remove them before using this program.</p>
+<img alt="A T2 map" src="../_images/T2_slices.png" />
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qidespot2 t1_map.nii.gz input_file.nii.gz --mask<span class="o">=</span>mask_file.nii.gz --B1<span class="o">=</span>b1_file.nii.gz &lt; input.json
+</pre></div>
+</div>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;SSFP&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+        <span class="nt">&quot;PhaseInc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">180</span><span class="p">],</span>
+        <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Both <code class="docutils literal notranslate"><span class="pre">PhaseInc</span></code> and <code class="docutils literal notranslate"><span class="pre">FA</span></code> are measured in degrees. If the ellipse option is specified, then the sequence type must be <code class="docutils literal notranslate"><span class="pre">SSFPGS</span></code>, which does not require a <code class="docutils literal notranslate"><span class="pre">PhaseInc</span></code>. The units of <code class="docutils literal notranslate"><span class="pre">TR</span></code> must match the input T1 map.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">D2_T2.nii.gz</span></code> - The T2 map. Units are the same as those used for TR in the input.</li>
+<li><code class="docutils literal notranslate"><span class="pre">D2_PD.nii.gz</span></code> - The apparent Proton Density map. No units. Will be corrected for T2 decay at the echo time.</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--B1,</span> <span class="pre">-b</span></code></p>
+<blockquote>
+<div><p>Specify an effective flip-angle or B1 map. This must be expressed as a fraction, e.g. a value of 1 in a voxel implies the nominal flip-angle was achieved.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--algo,</span> <span class="pre">-a</span></code></p>
+<blockquote>
+<div><p>This specifies which precise algorithm to use. There are 3 choices, classic linear least-squares (l), weighted linear least-squares (w), and non-linear least-squares (n). If you only have 2 flip-angles then LLS is the only meaningful choice. The other 2 choices should produce better (less noisy, more accurate) T1 maps when you have more input flip-angles. WLLS is faster than NLLS for the same number of iterations. However, modern processors are sufficiently powerful that the difference is bearable. Hence NLLS is recommended for the highest possible quality.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--ellipse,</span> <span class="pre">-e</span></code></p>
+<blockquote>
+<div><p>This specifies that the input data is the SSFP Ellipse Geometric Solution, i.e. that multiple phase-increment data has already been combined to produce band free images.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.10407">Original DESPOT2 Paper</a></li>
+</ul>
+</div>
+<div class="section" id="qidespot2fm">
+<h2>qidespot2fm<a class="headerlink" href="#qidespot2fm" title="Permalink to this headline">¶</a></h2>
+<p>DESPOT2-FM uses SSFP data with mulitple phase-increments (also called phase-cycles or phase-cycling patterns) to produce T2 maps without banding artefacts.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qidespot2fm t1_map.nii.gz input_file.nii.gz --mask<span class="o">=</span>mask_file.nii.gz --B1<span class="o">=</span>b1_file.nii.gz &lt; input.json
+</pre></div>
+</div>
+<p>The input file should contain all SSFP images concatenated together as a 4D file. The preferred ordering is flip-angle, then phase-increment (i.e. all flip-angles at one phase-increment, then all flip-angles at the next phase-increment).</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;SSFP&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+        <span class="nt">&quot;PhaseInc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Both <code class="docutils literal notranslate"><span class="pre">PhaseInc</span></code> and <code class="docutils literal notranslate"><span class="pre">FA</span></code> are measured in degrees. The length of <code class="docutils literal notranslate"><span class="pre">PhaseInc</span></code> and <code class="docutils literal notranslate"><span class="pre">FA</span></code> must match.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">FM_T2.nii.gz</span></code> - The T2 map. Units are the same as those used for TR in the input.</li>
+<li><code class="docutils literal notranslate"><span class="pre">FM_PD.nii.gz</span></code> - The apparent Proton Density map. No units. Will be corrected for T2 decay at the echo time.</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--B1,</span> <span class="pre">-b</span></code></p>
+<blockquote>
+<div><p>Specify an effective flip-angle or B1 map. This must be expressed as a fraction, e.g. a value of 1 in a voxel implies the nominal flip-angle was achieved.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--asym,</span> <span class="pre">-A</span></code></p>
+<blockquote>
+<div><p>With the commonly used phase-increments of 180 and 0 degrees, due to symmetries in the SSFP magnitude profile, it is not possible to distinguish positive and negative off-resonance. Hence by default <code class="docutils literal notranslate"><span class="pre">qidespot2fm</span></code> only tries to fit for positive off-resonance frequences. If you acquire most phase-increments, e.g. 180, 0, 90 &amp; 270, then add this switch to fit both negative and positive off-resonance frequencies.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/jmri.21849">Orignal FM Paper</a></li>
+</ul>
+</div>
+<div class="section" id="qimcdespot">
+<h2>qimcdespot<a class="headerlink" href="#qimcdespot" title="Permalink to this headline">¶</a></h2>
+<p>Multi-component DESPOT aims to separate SPGR and SSFP signals into multiple discrete pools with different T&lt;sub&gt;1&lt;/sub&gt; and T&lt;sub&gt;2&lt;/sub&gt;. In the brain, the pool with shorter values is attributed to myelin water, while pools with longer values can be either intra/extra-cellular water or CSF.</p>
+<p>It is recommended to have an off-resonance map to stabilise the fitting. This can be generated by using <a class="reference internal" href="#qidespot1">qidespot1</a> and then <a class="reference internal" href="#qidespot2fm">qidespot2fm</a> above. A B1 map is also essential for good results.</p>
+<img alt="Processed mcDESPOT Images" src="../_images/mcdespot.png" />
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qimcdespot spgr_file.nii.gz ssfp_file.nii.gz --mask<span class="o">=</span>mask_file.nii.gz --B1<span class="o">=</span>b1_file.nii.gz --f0<span class="o">=</span>f0_file.nii.gz --scale &lt; input.json
+</pre></div>
+</div>
+<p>The SSFP input file should contain all SSFP images concatenated together as a 4D file (see <a class="reference internal" href="#qidespot2fm">qidespot2fm</a> above).</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;Sequences&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;SPGR&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;TR&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+                <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">18</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;SSFP&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;TR&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+                <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">60</span><span class="p">],</span>
+                <span class="nt">&quot;PhaseInc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">180</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The order that the sequences are listed must match the order the input files are specified on the command-line.</p>
+<p><strong>Outputs</strong></p>
+<p>Note - the output prefix will change depending on the model selected (see below). The outputs listed here are for the 3 component model.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">3C_T1_m.nii.gz</span></code> - T1 of myelin water</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_T2_m.nii.gz</span></code> - T2 of myelin water</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_T1_ie.nii.gz</span></code> - T1 of intra/extra-cellular water</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_T2_ie.nii.gz</span></code> - T2 of intra/extra-cellular water</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_T1_csf.nii.gz</span></code> - T1 of CSF</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_T2_csf.nii.gz</span></code> - T2 of CSF</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_tau_m.nii.gz</span></code> - The residence time of myelin water (reciprocal of forward exchange rate)</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_f_m.nii.gz</span></code> - The Myelin Water Fraction (MWF)</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_f_csf.nii.gz</span></code> - The CSF Fraction</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_f0.nii.gz</span></code> - The off-resonance frequency. If this was specified on the command line, it will be a copy of that file</li>
+<li><code class="docutils literal notranslate"><span class="pre">3C_B1.nii.gz</span></code> - The relative flip-angle map. If this was specified on the command line, it will be a copy of that file</li>
+</ul>
+<p>The intra/extra-cellular water fraction is not output, as it is not a free parameter (only 2 of the 3 pool fractions are required for the calculations). It is easy to calculate this post-hoc by subtracting the MWF and CSFF from 1.</p>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--algo,</span> <span class="pre">-a</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li>S - Stochastic Region Contraction</li>
+<li>G - Gaussian Region Contraction</li>
+</ul>
+<p>Gaussian is recommended.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--tesla,</span> <span class="pre">-t</span></code></p>
+<blockquote>
+<div><p>Specify the field-strength so sensible fitting ranges can be used. Currently only ranges for (3) and (7)T are defined. If you wish to specify your own ranges, set this option as (u) and then the ranges will be read from your input file.</p>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">--model,</span> <span class="pre">-m</span></code></dt>
+<dd><ul class="first last simple">
+<li>1 - 1 component model (no fractions, just a single T1/T2)</li>
+<li>2 - 2 component model. Myelin and intra/extra-cellular water</li>
+<li>2nex - 2 component model without exchange</li>
+<li>3 - 3 component model. Myelin water, IE water &amp; CSF</li>
+<li>3nex - 3 component model without exchange</li>
+<li>3f0 - 3 component model, allow an additional off-resonance offset between myelin and IE water pools</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.21704">Original mcDESPOT paper</a></li>
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.24429">3 component model</a></li>
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.25108">Stochastic/Gaussian Region Contraction</a></li>
+</ul>
+</div>
+<div class="section" id="qimp2rage">
+<h2>qimp2rage<a class="headerlink" href="#qimp2rage" title="Permalink to this headline">¶</a></h2>
+<p>MP2RAGE adds a second inversion time to the standard T1w MPRAGE sequence. Combining the (complex) images with the expression <span class="math notranslate nohighlight">\(S_1 S_2^*/(|S_1^2 + S_2^2|)\)</span> produces a real-valued image that is corrected for receive coil (B1-) inhomogeneity. In addition, if the two inversion times are carefully selected, a one-to-one mapping exists between the values in that image and T1, which is also robust to transmit (B1+) inhomogeneity. Finally, as the two images are implicitly registered, this method has several advantages over DESPOT1.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qimp2rage input_file.nii.gz --mask<span class="o">=</span>mask_file.nii.gz &lt; input.json
+</pre></div>
+</div>
+<p>The input file must be complex-valued.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;MP2RAGE&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span> <span class="p">:</span> <span class="mf">0.006</span><span class="p">,</span>
+        <span class="nt">&quot;SegTR&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="nt">&quot;TI&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+        <span class="nt">&quot;ETL&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+        <span class="nt">&quot;FA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">TR</span></code> is the readout or echo-train repetition time, while <code class="docutils literal notranslate"><span class="pre">SegTR</span></code> is the segment or overall TR. <code class="docutils literal notranslate"><span class="pre">ETL</span></code> is the echo-train length or number of readouts in one segment.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">{input}_contrast.nii.gz</span></code> - The MP2 contrast image. The range of this image is -0.5 to 0.5.</li>
+<li><code class="docutils literal notranslate"><span class="pre">{input}_T1.nii.gz</span></code> - The T1 map. Units are the same as <cite>TR</cite> and <cite>SegTR</cite>.</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--beta,</span> <span class="pre">-b</span></code></p>
+<blockquote>
+<div><p>Regularisation factor for robust contrast calculation (see references). It is recommended to experiment with this parameter to manually find an optimum value, which should then be kept constant for an entire dataset.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S1053811909010738">Original MP2RAGE paper</a></li>
+<li><a class="reference external" href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0099676">Robust contrast</a></li>
+</ul>
+</div>
+<div class="section" id="qimultiecho">
+<h2>qimultiecho<a class="headerlink" href="#qimultiecho" title="Permalink to this headline">¶</a></h2>
+<p>Classic monoexponential decay fitting. Can be used to fit either T2 or T2*.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qimultiecho input_file.nii.gz --algo<span class="o">=</span>a &lt; input.json
+</pre></div>
+</div>
+<p><strong>Example Command Line</strong></p>
+<p>For regularly spaced echoes:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;MultiEcho&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span> <span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span>
+        <span class="nt">&quot;TE1&quot;</span> <span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+        <span class="nt">&quot;ESP&quot;</span> <span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+        <span class="nt">&quot;ETL&quot;</span> <span class="p">:</span> <span class="mi">16</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">TE1</span></code> is the first echo-time, <code class="docutils literal notranslate"><span class="pre">ESP</span></code> is the subsequent echo-spacing, <code class="docutils literal notranslate"><span class="pre">ETL</span></code> is the echo-train length.</p>
+<p>For irregularly spaced echoes:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;MultiEchoFlex&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;TR&quot;</span> <span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span>
+        <span class="nt">&quot;TE&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The current implementation of the ARLO method will only work with regularly spaced echoes</p>
+</div>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">ME_T2.nii.gz</span></code> - The T2 map. Units are the same as <cite>TE1</cite> and <cite>ESP</cite>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ME_PD.nii.gz</span></code> - The apparent proton-density map (intercept of the decay curve at TE=0)</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--algo,</span> <span class="pre">-a</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li>l - Standard log-linear fitting</li>
+<li>a - ARLO (see reference below)</li>
+<li>n - Non-linear fitting</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.25137">ARLO</a></li>
+</ul>
+</div>
+<div class="section" id="qiafi">
+<h2>qiafi<a class="headerlink" href="#qiafi" title="Permalink to this headline">¶</a></h2>
+<p>Calculates a relative flip-angle (B1) map using the Actual Flip-angle Imaging method.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiafi input_file.nii.gz
+</pre></div>
+</div>
+<p>Does not read any input from <code class="docutils literal notranslate"><span class="pre">stdin</span></code>. The input file should contain two volumes, corresponding to TR1 and TR2.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">AFI_B1.nii.gz</span></code> - The relative flip-angle map.</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--flip,</span> <span class="pre">-f</span></code></p>
+<blockquote>
+<div><p>The nominal flip-angle that should have been achieved, default 55 degrees.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--ratio,</span> <span class="pre">-r</span></code></p>
+<blockquote>
+<div><p>The ratio of TR2 to TR1, default 5.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--save,</span> <span class="pre">-s</span></code></p>
+<blockquote>
+<div><p>Output AFI_angle.nii.gz, the actual achieved angle in each voxel.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.21120">Original AFI Paper</a></li>
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.22394">Optimal parameters</a></li>
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.21592">Steady-State Conditions</a></li>
+</ul>
+</div>
+<div class="section" id="qidream">
+<h2>qidream<a class="headerlink" href="#qidream" title="Permalink to this headline">¶</a></h2>
+<p>Calculates a relative flip-angle (B1) map using the DREAM method.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qidream input_file.nii.gz
+</pre></div>
+</div>
+<p>Does not read any input from <cite>stdin</cite>. The input file should contain two volumes, the FID and stimulated echo (STE).</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">DREAM_B1.nii.gz</span></code> - The relative flip-angle map.</li>
+<li><code class="docutils literal notranslate"><span class="pre">DREAM_angle.nii.gz</span></code> - The actual achieved angle in each voxel.</li>
+</ul>
+<p><em>Important Options</em></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--alpha,</span> <span class="pre">-a</span></code></p>
+<blockquote>
+<div><p>The nominal flip-angle that should have been achieved, default 55 degrees.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--order,</span> <span class="pre">-O</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li>f - FID is the first volume, STE is second</li>
+<li>s - STE is the first volume, FID is second</li>
+<li>v - VST (Virtual Stimulated Echo) is the first volume, FID is second</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.24158">Original DREAM Paper</a></li>
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.24667">Virtual Stimulated Echo</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Perfusion.html" class="btn btn-neutral float-right" title="Perfusion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Contents.html" class="btn btn-neutral" title="Categories" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Tobias Wood.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,582 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Utilities &mdash; QUIT  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Developer" href="Developer.html" />
+    <link rel="prev" title="Statistics / GLM Tools" href="Stats.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> QUIT
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="Contents.html">Categories</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Relaxometry.html">Relaxometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Perfusion.html">Perfusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MT.html">Magnetization Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SSFP.html">SSFP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Susceptibility.html">Susceptibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Stats.html">Statistics / GLM Tools</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qi-coil-combine">qi_coil_combine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qi-rfprofile">qi_rfprofile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qiaffine">qiaffine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qicomplex">qicomplex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qihdr">qihdr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qikfilter">qikfilter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qimask">qimask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qipolyfit-qipolyimg">qipolyfit/qipolyimg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qisplitsubjects">qisplitsubjects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qidiff">qidiff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qinewimage">qinewimage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Developer.html">Developer</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QUIT</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Contents.html">Categories</a> &raquo;</li>
+        
+      <li>Utilities</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Docs/Utilities.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
+<p>QUIT contains a number of utilities. Note that these are actually compiled in two separate modules - <code class="docutils literal notranslate"><span class="pre">CoreProgs</span></code> contains the bare minimum of programs for the QUIT tests to run, while the actual <code class="docutils literal notranslate"><span class="pre">Utils</span></code> modules contains a larger number of useful tools for neuro-imaging pipelines. Their documentation is combined here.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#qi-coil-combine">qi_coil_combine</a></li>
+<li><a class="reference internal" href="#qi-rfprofile">qi_rfprofile</a></li>
+<li><a class="reference internal" href="#qiaffine">qiaffine</a></li>
+<li><a class="reference internal" href="#qicomplex">qicomplex</a></li>
+<li><a class="reference internal" href="#qihdr">qihdr</a></li>
+<li><a class="reference internal" href="#qikfilter">qikfilter</a></li>
+<li><a class="reference internal" href="#qimask">qimask</a></li>
+<li><a class="reference internal" href="#qipolyfit-qipolyimg">qipolyfit/qipolyimg</a></li>
+<li><a class="reference internal" href="#qisplitsubjects">qisplitsubjects</a></li>
+<li><a class="reference internal" href="#qidiff">qidiff</a></li>
+<li><a class="reference internal" href="#qinewimage">qinewimage</a></li>
+</ul>
+<div class="section" id="qi-coil-combine">
+<h2>qi_coil_combine<a class="headerlink" href="#qi-coil-combine" title="Permalink to this headline">¶</a></h2>
+<p>The program implements both the COMPOSER and Hammond methods for coil combination. For COMPOSER, a wrapper script that includes registration and resampling of low resolution reference data to the image data can be found in <code class="docutils literal notranslate"><span class="pre">qi_composer.sh</span></code>.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_coil_combine multicoil_data.nii.gz --composer<span class="o">=</span>composer_reference.nii.gz
+</pre></div>
+</div>
+<p>Both the input multi-coil file and the reference file must be complex valued. Does not read input from <code class="docutils literal notranslate"><span class="pre">stdin</span></code>. If a COMPOSER reference file is not specifed, then the Hammond coil combination method is used.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">input_combined.nii.gz</span></code> - The combined complex-valued image.</li>
+</ul>
+<p><strong>Important Options</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--composer,</span> <span class="pre">-c</span></code></p>
+<blockquote>
+<div><p>Use the COMPOSER method. The reference file should be from a short-echo time reference scan, e.g. UTE or ZTE. If</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--coils,</span> <span class="pre">-C</span></code></p>
+<blockquote>
+<div><p>If your input data is a timeseries consisting of multiple volumes, then use this option to specify the number of coils used in the acquisition. Must match the number of volumes in the reference image. Does not currently work with the Hammond method.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--region,</span> <span class="pre">-r</span></code></p>
+<blockquote>
+<div><p>The reference region for the Hammond method. Default is an 8x8x8 cube in the center of the acquisition volume.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://doi.wiley.com/10.1002/mrm.26093">COMPOSER</a></li>
+<li><a class="reference external" href="http://linkinghub.elsevier.com/retrieve/pii/S1053811907009998">Hammond Method</a></li>
+</ul>
+</div>
+<div class="section" id="qi-rfprofile">
+<h2>qi_rfprofile<a class="headerlink" href="#qi-rfprofile" title="Permalink to this headline">¶</a></h2>
+<p>This utility takes a B1+ (transmit field inhomogeneity) map, and reads an excitation slab profile from <code class="docutils literal notranslate"><span class="pre">stdin</span></code>. The two are multiplied together along the slab direction (assumed to be Z), to produce a relative flip-angle or B1 map.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qi_rfprofile b1plus_map.nii.gz output_b1_map.nii.gz &lt; input.json
+</pre></div>
+</div>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;rf_pos&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">-5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="nt">&quot;rf_vals&quot;</span> <span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">rf_pos</span></code> specifies the positions that values of the RF slab have been calculated at, which are specified in <code class="docutils literal notranslate"><span class="pre">rf_vals</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">rf_vals</span></code> is an array of arrays - this allows <code class="docutils literal notranslate"><span class="pre">qi_rfprofile</span></code> to calculate profiles for multiple flip-angles in a single pass. The units for <code class="docutils literal notranslate"><span class="pre">rf_pos</span></code> are the same as image spacing in the header (usually mm). <code class="docutils literal notranslate"><span class="pre">rf_vals</span></code> is a unitless fraction, relative to the nominal flip-angle.</p>
+<p>These values should be generated with a Bloch simulation. Internally, they are used to create a spline to represent the slab profile. This is then interpolated to each voxel’s Z position, and the value multiplied by the input B1+ value at that voxel to produce the output.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">output_b1map.nii.gz</span></code> - The relative flip-angle/B1 map</li>
+</ul>
+</div>
+<div class="section" id="qiaffine">
+<h2>qiaffine<a class="headerlink" href="#qiaffine" title="Permalink to this headline">¶</a></h2>
+<p>This tool applies simple affine transformations to the header data of an image, i.e. rotations or scalings. It was written because of the inconsistent definitions of co-ordinate systems in pre-clinical imaging. Non-primate mammals are usually scanned prone instead of supine, and are quadrupeds instead of bipeds. This means the definitions of superior/inferior and anterior/posterior are different than in clinical scanning. However, several pre-clinical atlases, e.g. Dorr et al, rotate their data so that the clinical conventions apply. It is hence useful as a pre-processing step to adopt the same co-ordinate system. In addition, packages such as SPM or ANTs have several hard-coded assumptions about their input images that are only appropriate for human brains. It can hence be useful to scale up rodent brains by a factor of 10 so that they have roughly human dimensions.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiaffine input_image.nii.gz --scale<span class="o">=</span><span class="m">10</span>.0 --rotX<span class="o">=</span><span class="m">90</span>
+</pre></div>
+</div>
+<p>If no output image is specified, the output will be written back to the input filename.</p>
+<p><strong>Common Options</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--scale,</span> <span class="pre">-s</span></code></p>
+<blockquote>
+<div><p>Multiply the voxel spacing by a constant factor.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--rotX,</span> <span class="pre">--rotY,</span> <span class="pre">--rotZ</span></code></p>
+<blockquote>
+<div><p>Rotate about the specified axis by the specified number of degrees. Note that currently, each rotation can only be specified once and the order will always be X, Y, then Z.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--offX,</span> <span class="pre">--offY,</span> <span class="pre">--offZ</span></code></p>
+<blockquote>
+<div><p>Add the specified offset to the origin.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--center,</span> <span class="pre">-c</span></code></p>
+<blockquote>
+<div><p>Set the image origin to be the Center of Gravity of the image.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="qicomplex">
+<h2>qicomplex<a class="headerlink" href="#qicomplex" title="Permalink to this headline">¶</a></h2>
+<p>Manipulate complex/real/imaginary/magnitude/phase data. Created because I was fed up with how <code class="docutils literal notranslate"><span class="pre">fslcomplex</span></code> works.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qicomplex -m input_magnitude.nii.gz -p input_phase.nii.gz -R output_real.nii.gz -I output_imaginary.nii.gz
+</pre></div>
+</div>
+<p>Lower case arguments <code class="docutils literal notranslate"><span class="pre">--mag,</span> <span class="pre">-m,</span> <span class="pre">--pha,</span> <span class="pre">-p,</span> <span class="pre">--real,</span> <span class="pre">-r,</span> <span class="pre">--imag,</span> <span class="pre">-i,</span> <span class="pre">--complex,</span> <span class="pre">-x</span></code> are inputs (of which it is only valid to specify certain combinations, complex OR magnitude/phase OR real/imaginary).</p>
+<p>Upper case arguments <code class="docutils literal notranslate"><span class="pre">--MAG,</span> <span class="pre">-M,</span> <span class="pre">--PHA,</span> <span class="pre">-P,</span> <span class="pre">--REAL,</span> <span class="pre">-R,</span> <span class="pre">--IMAG,</span> <span class="pre">-I,</span> <span class="pre">--COMPLEX,</span> <span class="pre">-X</span></code> are outputs, any or all of which can be specified.</p>
+<p>An additional input argument, <code class="docutils literal notranslate"><span class="pre">--realimag</span></code> is for Bruker “complex” data, which consists of all real volumes followed by all imaginary volumes, instead of a true complex datatype.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--fixge</span></code> argument fixes the lack of an FFT shift in the slab direction on GE data by multiplying alternate slices by -1. <code class="docutils literal notranslate"><span class="pre">--negate</span></code> multiplies the entire volume by -1. <code class="docutils literal notranslate"><span class="pre">--double</span></code> reads and writes double precision data instead of floats.</p>
+</div>
+<div class="section" id="qihdr">
+<h2>qihdr<a class="headerlink" href="#qihdr" title="Permalink to this headline">¶</a></h2>
+<p>Prints the header of input files as seen by ITK to <code class="docutils literal notranslate"><span class="pre">stdout</span></code>. Can extract single header fields or print the entirety.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qihdr input_file1.nii.gz input_file2.nii.gz --verbose
+</pre></div>
+</div>
+<p>Multiple files can be queried at the same time. The <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> flag will make sure you can tell which is which.</p>
+<p><strong>Important Options</strong></p>
+<p>If any of the following options are specified, then only those fields will be printed instead of the full header. This is useful if you want to use a header field in a script:
+* <code class="docutils literal notranslate"><span class="pre">--origin,</span> <span class="pre">-o</span></code>
+* <code class="docutils literal notranslate"><span class="pre">--spacing,</span> <span class="pre">-S</span></code> - The voxel spacing
+* <code class="docutils literal notranslate"><span class="pre">--size,</span> <span class="pre">-s</span></code> - The matrix size
+* <code class="docutils literal notranslate"><span class="pre">--voxvol,</span> <span class="pre">-v</span></code> - The volume of one voxel</p>
+<p>Another useful option is <code class="docutils literal notranslate"><span class="pre">--meta,</span> <span class="pre">-m</span></code>. This will let you query specific image meta-data from the header. You must know the exact name of the meta-data field you wish to obtain.</p>
+</div>
+<div class="section" id="qikfilter">
+<h2>qikfilter<a class="headerlink" href="#qikfilter" title="Permalink to this headline">¶</a></h2>
+<p>MR images often required smoothing or filtering. While this is best done during reconstruction, sometimes it is required as a post-processing step. Instead of filtering by performing a convolution in image space, this tool takes the Fourier Transfrom of input volumes, multiplies k-Space by the specified filter, and transforms back.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qikfilter input_file.nii.gz --filter<span class="o">=</span>Gauss,0.5
+</pre></div>
+</div>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">input_file_filtered.nii.gz</span></code></li>
+</ul>
+<p><strong>Important Options</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--filter,-f</span></code></p>
+<blockquote>
+<div><p>Specify the filter to use. For all filters below the value (r) is the fractional distance from k-Space center, i.e. <span class="math notranslate nohighlight">\(r = \sqrt(((k_x / s_x)^2 + (k_y / s_y)^2 + (k_z / s_z)^2) / 3)\)</span>. Valid filters are:</p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">Tukey,a,q</span></code></p>
+<blockquote>
+<div><p>A Tukey filter with parameters <cite>a</cite> and <cite>q</cite>. Filter value is 1 for <span class="math notranslate nohighlight">\(r &lt; (1 - a)\)</span> else the value is <span class="math notranslate nohighlight">\(\frac{(1+q)+(1-q)\cos(\pi\frac{r - (1 - a)}{a})}{2}\)</span></p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">Hamming,a,b</span></code></p>
+<blockquote>
+<div><p>A Hamming filter, parameters <cite>a</cite> and <cite>b</cite>, value is <span class="math notranslate nohighlight">\(a - b\cos(\pi(1+r))\)</span></p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">Gauss,w</span></code> or <code class="docutils literal notranslate"><span class="pre">Gauss,x,y,z</span></code></p>
+<blockquote>
+<div><p>A Gaussian filter with FWHM specified either isotropically or for each direction independantly.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">Blackman</span></code> or <code class="docutils literal notranslate"><span class="pre">Blackman,a</span></code></p>
+<blockquote>
+<div><p>A Blackman filter, either with the default parameter of <span class="math notranslate nohighlight">\(\alpha=0.16\)</span> or the specified <span class="math notranslate nohighlight">\(\alpha\)</span>. Refer to Wikipedia for the relevant equation.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">Rectangle,Dim,Width,Inside,Outside</span></code></p>
+<blockquote>
+<div><p>A rectangular or top-hat filter along the specified dimension (must be 0, 1 or 2).</p>
+</div></blockquote>
+</li>
+</ul>
+<p>If multiple filters are specified, they are concatenated, <em>unless</em> the <code class="docutils literal notranslate"><span class="pre">--filter_per_volume</span></code> option is specified.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--filter_per_volume</span></code></p>
+<blockquote>
+<div><p>For multiple flip-angle data, the difference in contrast between flip-angles can lead to different amounts of ringing. Hence you may wish to filter volumes with more ringing more heavily. If this option is specified, the number of filters on the command line must match the number of volumes in the input file, and they will be processed in order.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--complex_in</span></code> and <code class="docutils literal notranslate"><span class="pre">--complex_out</span></code></p>
+<blockquote>
+<div><p>Read / write complex data.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="qimask">
+<h2>qimask<a class="headerlink" href="#qimask" title="Permalink to this headline">¶</a></h2>
+<p>Implements several different masking strategies. For human data, BET, antsBrainExtraction of 3dSkullStrip are likely better ideas. For pre-clinical data, the strategies below can provide a reasonable mask with some tweaking. There are potentially three stages to generating the mask:</p>
+<p>1 - Binary thresholding. If lower or upper thresholds are specified, these are used to separate the image into foreground and background. If neither are specified, then Otsu’s method is used to automatically estimate a reasonable threshold value.
+2 - (Optional) Run the RATs algorithm
+3 - (Optional) Hole-filling</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qimask input_image.nii.gz --lower<span class="o">=</span><span class="m">10</span> --rats<span class="o">=</span><span class="m">1200</span> --fillh<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+<p>In this case an intensity value of 10 will be used as the threshold, RATs will be run with a target volume of 1200 mm^3, and then holes with a radius of 1 voxel will be filled.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">input_image_mask.nii.gz</span></code></li>
+</ul>
+<p><strong>Important Options</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--lower,-l</span></code>/<code class="docutils literal notranslate"><span class="pre">--upper,-u</span></code></p>
+<blockquote>
+<div><p>Specify lower and/or upper intensity thresholds. Values below/above these values are set to 0, those inside are set 1. If this option is not specified, Otsu’s method will be used to generate a threshold value. If no thresholding is desired, specify <code class="docutils literal notranslate"><span class="pre">--lower=0</span></code>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--rats,</span> <span class="pre">-r</span></code></p>
+<blockquote>
+<div><p>Use the RATs algorithm to remove non-brain tissue. The RATs algorithm uses erode &amp; dilate filters of progressively increasing size until the largest connected component falls below a target size. For rats, target values of around 1000 mm^3 are reasonable.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--fillh,</span> <span class="pre">-F</span></code></p>
+<blockquote>
+<div><p>Fill holes in the mask up to radius N voxels.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://dx.doi.org/10.1016/j.jneumeth.2013.09.021">RATs algorithm</a></li>
+</ul>
+</div>
+<div class="section" id="qipolyfit-qipolyimg">
+<h2>qipolyfit/qipolyimg<a class="headerlink" href="#qipolyfit-qipolyimg" title="Permalink to this headline">¶</a></h2>
+<p>These tools work together to fit Nth order polynomials to images. This is typically used for smoothing a B1 field.</p>
+<p><code class="docutils literal notranslate"><span class="pre">qipolyfit</span></code> will output the polynomial co-efficients and origin to <code class="docutils literal notranslate"><span class="pre">stdout</span></code>. <code class="docutils literal notranslate"><span class="pre">qipolyimg</span></code> can then read these to generate the polyimage image, using a different image as the reference space. In this way the polynomial image can be created without having to use upsampling.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qipolyfit noisy_b1_map.nii.gz --mask<span class="o">=</span>brain_mask.nii.gz --order<span class="o">=</span><span class="m">8</span> <span class="p">|</span> qipolyimg hires_t1_image.nii.gz hires_smooth_b1_map.nii.gz --order<span class="o">=</span><span class="m">8</span>
+</pre></div>
+</div>
+<p>With the above command-line the output of <code class="docutils literal notranslate"><span class="pre">qipolyfit</span></code> is piped directly to the output of <code class="docutils literal notranslate"><span class="pre">qipolyimg</span></code>. You can instead redirect it to a file with <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> and read it in separately. The <code class="docutils literal notranslate"><span class="pre">--order</span></code> argument must match between the two commands.</p>
+<p><strong>Important Options</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--order,</span> <span class="pre">-o</span></code></p>
+<blockquote>
+<div><p>The order of the fitted polynomial. Default is 2 (quadratic)</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--mask,</span> <span class="pre">-m</span></code></p>
+<blockquote>
+<div><p>Only fit the data within a mask. This is usually the brain or only white-matter.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--robust</span></code> (<code class="docutils literal notranslate"><span class="pre">qipolyimg</span></code> only)</p>
+<blockquote>
+<div><p>Use Robust Polynomial Fitting with Huber weights. There is a good discussion of this topic in the Matlab help files.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="qisplitsubjects">
+<h2>qisplitsubjects<a class="headerlink" href="#qisplitsubjects" title="Permalink to this headline">¶</a></h2>
+<p>This program is deprecated. It was used to separate ex-vivo images containing multiple subjects into distinct images.</p>
+</div>
+<div class="section" id="qidiff">
+<h2>qidiff<a class="headerlink" href="#qidiff" title="Permalink to this headline">¶</a></h2>
+<p>Calculates the mean square difference between two images and checks if it is below a tolerance value. Used in the QUIT tests to ensure that calculated parameter maps are close to their baseline values.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qidiff --baseline<span class="o">=</span>original.nii --input<span class="o">=</span>calculated.nii --noise<span class="o">=</span><span class="m">0</span>.01 --tolerance<span class="o">=</span><span class="m">30</span>
+</pre></div>
+</div>
+<p>The program simply returns <code class="docutils literal notranslate"><span class="pre">FAILURE</span></code> or <code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code>, which is detected by BATS. Note, to make useage clearer, unlike most other QUIT programs all input is specified as arguments.</p>
+<p><strong>Important Options</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--baseline</span></code></p>
+<blockquote>
+<div><p>The baseline image. Required.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--image</span></code></p>
+<blockquote>
+<div><p>The image to compare to the baseline. Required.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--noise</span></code></p>
+<blockquote>
+<div><p>The added noise level.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--tolerance</span></code></p>
+<blockquote>
+<div><p>The tolerance is relative to the added noise level (i.e. it is a noise amplification factor).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--abs,</span> <span class="pre">-a</span></code></p>
+<blockquote>
+<div><p>Use absolute difference instead of fractional difference (i.e. do not divide by the baseline image). Useful when images contain genuine zeros (e.g. off resonance maps).</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="qinewimage">
+<h2>qinewimage<a class="headerlink" href="#qinewimage" title="Permalink to this headline">¶</a></h2>
+<p>Creates new images filled with specified patterns. Used for generating test data.</p>
+<p><strong>Example Command Line</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qinewimage --size <span class="m">32</span>,32,32 --grad <span class="s2">&quot;0 0.5 1.5&quot;</span> output_image.nii.gz
+</pre></div>
+</div>
+<p>The file specified on the command line is the <em>output</em> file.</p>
+<p><strong>Important Options</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--dims,</span> <span class="pre">-d</span></code></p>
+<blockquote>
+<div><p>The output dimension. Valid values are 3 and 4.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--size,</span> <span class="pre">-s</span></code></p>
+<blockquote>
+<div><p>Matrix size of the output image.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--fill,</span> <span class="pre">-f</span></code></p>
+<blockquote>
+<div><p>Set all voxels in the image to the specified value.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--grad,</span> <span class="pre">-g</span> <span class="pre">&quot;DIM,LOW,HIGH&quot;</span></code></p>
+<blockquote>
+<div><p>Fill voxels with a gradient along the specified dimension, starting at the low value at one edge and finishing at the high value on the other. It is recommended to encase <code class="docutils literal notranslate"><span class="pre">DIM,LOW,HIGH</span></code> with quotation marks as they must be passed as a single string to be interpreted properly.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--step,</span> <span class="pre">-t</span> <span class="pre">&quot;DIM,LOW,HIGH,STEPS&quot;</span></code></p>
+<blockquote>
+<div><p>Similar to <code class="docutils literal notranslate"><span class="pre">--grad</span></code>, but instead of a smooth gradient will with a number of discrete steps.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">--wrap,</span> <span class="pre">-w</span></code></p>
+<blockquote>
+<div><p>Wrap output voxels at the specified value. Useful for simulating phase data.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Developer.html" class="btn btn-neutral float-right" title="Developer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Stats.html" class="btn btn-neutral" title="Statistics / GLM Tools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Tobias Wood.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
