@@ -100,14 +100,15 @@ Eigen::Index SSFPMTSequence::size() const {
     return FA.rows();
 }
 
-SSFPMTSequence::SSFPMTSequence(const rapidjson::Value &json) {
+SSFPMTSequence::SSFPMTSequence(const rapidjson::Value &json) :
+    pulse(json["pulse"])
+{
     if (json.IsNull()) QI_FAIL("Could not read sequence: " << name());
     TR = ArrayFromJSON(json, "TR");
     FA = ArrayFromJSON(json, "FA", M_PI / 180);
     Trf = ArrayFromJSON(json, "Trf");
-    intB1 = ArrayFromJSON(json, "intB1");
-    if ((TR.rows() != Trf.rows()) || (TR.rows() != intB1.rows()) || (TR.rows() != FA.rows())) {
-        QI_FAIL("One on more parameters had differing lengths, TR had " << TR.rows() << ", Trf had " << Trf.rows() << ", intB1 had " << intB1.rows() << ", FA had " << FA.rows());
+    if ((TR.rows() != Trf.rows()) || (TR.rows() != FA.rows())) {
+        QI_FAIL("One on more parameters had differing lengths, TR had " << TR.rows() << ", Trf had " << Trf.rows() << ", FA had " << FA.rows());
     }
 }
 
@@ -116,7 +117,7 @@ rapidjson::Value SSFPMTSequence::toJSON(rapidjson::Document::AllocatorType &a) c
     json.AddMember("TR", ArrayToJSON(TR, a), a);
     json.AddMember("FA", ArrayToJSON(FA, a, 180 / M_PI), a);
     json.AddMember("Trf", ArrayToJSON(Trf, a), a);
-    json.AddMember("intB1", ArrayToJSON(intB1, a), a);
+    json.AddMember("pulse", pulse.toJSON(a), a);
     return json;
 }
 

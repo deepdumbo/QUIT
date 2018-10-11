@@ -66,7 +66,8 @@ struct EMTModel {
         const ArrayXT fk = (-sequence.TR*(k_bf + k_fb)).exp();
 
         const double G_gauss = (T2_b / sqrt(2.*M_PI))*exp(-pow(2.*M_PI*f0_Hz*T2_b,2) / 2.0);
-        const Eigen::ArrayXd WT = M_PI * (B1*B1 * sequence.intB1) * G_gauss; // # Product of W and Trf to save a division and multiplication
+        const Eigen::ArrayXd WT = M_PI * B1*B1 * G_gauss * sequence.FA.square() * sequence.pulse.p2 /
+            (sequence.pulse.p1 * sequence.pulse.p1);
         const Eigen::ArrayXd fw = (-WT).exp();
         const ArrayXT A = 1.0 + F - fw*E1_b*(F+fk);
         const ArrayXT B = 1.0 + fk*(F-fw*E1_b*(F+1.0));
