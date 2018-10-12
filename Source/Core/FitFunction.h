@@ -38,7 +38,7 @@ struct FitFunctionBase {
     ModelType &model;
     int max_iterations = 30;
     int n_inputs() const  { return 1; }
-    int input_size(const int /* Unused */) const { return model.sequence.size(); }
+    virtual int input_size(const int /* Unused */) const { return model.sequence.size(); }
     int n_fixed() const { return ModelType::NF; }
     int n_outputs() const { return ModelType::NV; }
 
@@ -52,13 +52,13 @@ struct FitFunction : FitFunctionBase<ModelType, false, false> {
     using Super = FitFunctionBase<ModelType, false, false>;
     using Super::Super;
     using InputType    = typename ModelType::DataType;
-    using OutputType   = typename ModelType::ParameterType ;
-    using ResidualType = typename ModelType::DataType;
+    using OutputType   = typename ModelType::ParameterType;
+    using ResidualType = typename ModelType::ParameterType; // The overall residual must be a scalar
     using FlagType     = FlagType_;   // Iterations
 
     virtual FitReturnType fit(const std::vector<QI_ARRAY(InputType)> &inputs,
                               const Eigen::ArrayXd &fixed, QI_ARRAYN(OutputType, ModelType::NV) &outputs,
-                              ResidualType &residual, std::vector<QI_ARRAY(ResidualType)> &point_residuals, FlagType &flag) const = 0;
+                              ResidualType &residual, std::vector<QI_ARRAY(InputType)> &point_residuals, FlagType &flag) const = 0;
 };
 
 template <typename ModelType_, typename FT = int>
@@ -120,12 +120,12 @@ struct BlockFitFunction : FitFunctionBase<ModelType, true, false> {
     using Super::Super;
     using InputType    = typename ModelType::DataType;
     using OutputType   = typename ModelType::ParameterType ;
-    using ResidualType = typename ModelType::DataType;
+    using ResidualType = typename ModelType::ParameterType; // The overall residual must be a scalar
     using FlagType     = FlagType_;   // Iterations
     using SequenceType = typename ModelType::SequenceType;
     virtual FitReturnType fit(const std::vector<QI_ARRAY(InputType)> &inputs,
                               const Eigen::ArrayXd &fixed, QI_ARRAYN(OutputType, ModelType::NV) &outputs,
-                              ResidualType &residual, std::vector<QI_ARRAY(ResidualType)> &point_residuals, FlagType &flag,
+                              ResidualType &residual, std::vector<QI_ARRAY(InputType)> &point_residuals, FlagType &flag,
                               const int block) const = 0;
 };
 

@@ -51,7 +51,7 @@ public:
 
     using TOutputImage   = typename BlockTypes<Blocked, ImageDimension, OutputPixelType>::Type;
     using TFlagImage     = typename BlockTypes<Blocked, ImageDimension, typename FitType::FlagType>::Type;
-    using TResidualImage = typename BlockTypes<Blocked, ImageDimension, InputPixelType>::Type;
+    using TResidualImage = typename BlockTypes<Blocked, ImageDimension, FixedPixelType>::Type;
     using TResidualsImage = VectorImage<InputPixelType, ImageDimension>;
 
     using TRegion    = typename TInputImage::RegionType;
@@ -301,7 +301,7 @@ protected:
 
         using InputArray    = QI_ARRAY(typename FitType::InputType);
         using OutputArray   = QI_ARRAYN(typename FitType::OutputType, FitType::ModelType::NV);
-        using ResidualArray = QI_ARRAY(typename FitType::ResidualType);
+        using ResidualsArray = QI_ARRAY(typename FitType::InputType);
         while(!input_iters[0].IsAtEnd()) {
             if (!mask || mask_iter.Get()) {
                 for (int b = 0; b < m_blocks; b++) {
@@ -325,11 +325,11 @@ protected:
                     OutputArray outputs;
                     typename FitType::ResidualType residual{};
                     typename FitType::FlagType flag{};
-                    std::vector<ResidualArray> residuals; // Leave size 0 if user doesn't want them
+                    std::vector<ResidualsArray> residuals; // Leave size 0 if user doesn't want them
                     if (m_allResiduals) {
                         for (int i = 0; i < m_fit->n_inputs(); i++) {
                             const int block_size = m_fit->input_size(i);
-                            residuals.push_back(ResidualArray::Zero(block_size));
+                            residuals.push_back(ResidualsArray::Zero(block_size));
                         }
                     }
 

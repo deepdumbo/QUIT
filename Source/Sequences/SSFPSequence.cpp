@@ -34,7 +34,6 @@ SSFPSequence::SSFPSequence(const rapidjson::Value &json) {
     TR = GetMember(json, "TR").GetDouble();
     FA = ArrayFromJSON(json, "FA", M_PI / 180);
     PhaseInc = ArrayFromJSON(json, "PhaseInc", M_PI / 180);
-    FA_PHASE_CHECK()
 }
 
 rapidjson::Value SSFPSequence::toJSON(rapidjson::Document::AllocatorType &a) const {

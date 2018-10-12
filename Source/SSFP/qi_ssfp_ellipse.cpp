@@ -54,7 +54,9 @@ int main(int argc, char **argv) {
         auto fit_filter = itk::ModelFitFilter<QI::EllipseFit>::New(fit);
         fit_filter->SetInput(0, input);
         fit_filter->SetVerbose(verbose);
-        fit_filter->SetBlocks(input->GetNumberOfComponentsPerPixel() / ssfp.size());
+        const int block_count = input->GetNumberOfComponentsPerPixel() / ssfp.PhaseInc.size();
+        QI_LOG(verbose, "Block count: " << block_count);
+        fit_filter->SetBlocks(block_count);
         if (mask) fit_filter->SetMask(QI::ReadImage(mask.Get(), verbose));
         if (subregion) fit_filter->SetSubregion(QI::RegionArg(args::get(subregion)));
         QI_LOG(verbose, "Processing");
@@ -69,13 +71,7 @@ int main(int argc, char **argv) {
         for (int i = 0; i < QI::EllipseModel::NV; i++) {
             QI::WriteVectorImage(fit_filter->GetOutput(i), outPrefix + QI::EllipseModel::varying_names.at(i) + QI::OutExt());
         }
-        // QI::WriteImage(fit_filter->GetResidualOutput(), outPrefix + "residual" + QI::OutExt());
-        // if (resids) {
-        //     QI::WriteVectorImage(fit_filter->GetResidualsOutput(0), outPrefix + "all_residuals" + QI::OutExt());
-        // }
-        // if (its) {
-        //     QI::WriteImage(fit_filter->GetFlagOutput(), outPrefix + "iterations" + QI::OutExt());
-        // }
+        QI::WriteVectorImage(fit_filter->GetResidualOutput(), outPrefix + "residual" + QI::OutExt());
         QI_LOG(verbose, "Finished." );
     }
     return EXIT_SUCCESS;

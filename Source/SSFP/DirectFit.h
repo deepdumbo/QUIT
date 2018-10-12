@@ -22,6 +22,7 @@ struct DirectFit : EllipseFit {
                           const Eigen::ArrayXd &fixed, QI_ARRAYN(OutputType, EllipseModel::NV) &outputs,
                           ResidualType &residual, std::vector<Eigen::ArrayXcd> &residuals, FlagType &iterations,
                           const int block) const override;
+    virtual int input_size(const int /* Unused */) const override { return model.sequence.PhaseInc.rows();}  
 };
 
 } // End namespace QI
