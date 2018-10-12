@@ -38,7 +38,7 @@ struct MCDSRCFunctor {
                   const Eigen::ArrayXd &d, const Eigen::ArrayXd &w) :
         data(d), weights(w), fixed(f), model(m)
     {
-        assert(static_cast<size_t>(data.rows()) == model.sequence.size());
+        assert(data.rows() == model.sequence.size());
     }
 
     int inputs() const { return Model::NV; }
