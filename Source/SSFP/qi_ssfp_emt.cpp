@@ -30,14 +30,14 @@ struct EMTModel
     using DataType = double;
     using ParameterType = double;
     using SequenceType = QI::SSFPMTSequence;
-    static const int NV = 6;
+    static const int NV = 5;
     static const int NF = 2;
 
     static std::array<const std::string, NV> varying_names;
     static std::array<const std::string, NF> fixed_names;
     static const QI_ARRAYN(double, NF) fixed_defaults;
     const SequenceType &sequence;
-    // double T2_b = 12.e-6;
+    double T2_b = 12.e-6;
 
     size_t num_outputs() const { return 3; }
     int output_size(int /* Unused */) { return sequence.size(); }
@@ -54,8 +54,6 @@ struct EMTModel
         const T &k_bf = v[2];
         const T &T1_f = v[3];
         const T &T2_f = v[4];
-        const T &T2_b = v[5] / 1e6;
-        // const double T2_b = 12e-6;
         const T &T1_b = T1_f;
         const double &f0_Hz = f[0];
         const double &B1 = f[1];
@@ -67,10 +65,10 @@ struct EMTModel
         const ArrayXT E1_b = (-sequence.TR / T1_b).exp();
         const ArrayXT fk = (-sequence.TR * (k_bf + k_fb)).exp();
 
-        const T G_gauss = QI::Gaussian(f0_Hz, T2_b);
+        const double G_gauss = QI::Gaussian(f0_Hz, T2_b);
         const Eigen::ArrayXd intB1sq = pow(sequence.FA / sequence.pulse.p1, 2.0) * 
                                      (sequence.pulse.p2 / sequence.Trf);
-        const ArrayXT fw = (-M_PI * B1 * B1 * intB1sq * G_gauss).exp();
+        const Eigen::ArrayXd fw = (-M_PI * B1 * B1 * intB1sq * G_gauss).exp();
         QI_DB( B1 );
         QI_DBVEC( sequence.FA );
         QI_DBVEC( sequence.Trf );
@@ -97,8 +95,8 @@ struct EMTModel
         return {Gp, ap, bp};
     }
 };
-std::array<const std::string, 6> EMTModel::varying_names{
-    {"PD"s, "f_b"s, "k_bf"s, "T1_f"s, "T2_f"s, "T2_b"s}};
+std::array<const std::string, EMTModel::NV> EMTModel::varying_names{
+    {"PD"s, "f_b"s, "k_bf"s, "T1_f"s, "T2_f"s}};
 std::array<const std::string, 2> EMTModel::fixed_names{{"f0"s, "B1"s}};
 const QI_ARRAYN(double, 2) EMTModel::fixed_defaults{0.0, 1.0};
 
@@ -153,7 +151,7 @@ struct EMTFit
         auto *cost = new ceres::AutoDiffCostFunction<EMTCost, ceres::DYNAMIC, EMTModel::NV>(
             new EMTCost{model, fixed, G, b}, G.size() + b.size());
         ceres::LossFunction *loss = new ceres::HuberLoss(1.0);
-        p << 15.0, 0.05, 5.0, 1.2, T2_f, 12;
+        p << 15.0, 0.1, 1.0, 1.2, T2_f;
         ceres::Problem problem;
         problem.AddResidualBlock(cost, loss, p.data());
         problem.SetParameterLowerBound(p.data(), 0, 0.1);
@@ -166,14 +164,12 @@ struct EMTFit
         problem.SetParameterUpperBound(p.data(), 3, 5.0);
         problem.SetParameterLowerBound(p.data(), 4, T2_f * 0.999);
         problem.SetParameterUpperBound(p.data(), 4, T2_f * 1.001);
-        problem.SetParameterLowerBound(p.data(), 5, 5);
-        problem.SetParameterUpperBound(p.data(), 5, 25);
         ceres::Solver::Options options;
         ceres::Solver::Summary summary;
         options.max_num_iterations = 100;
         options.function_tolerance = 1e-7;
         options.gradient_tolerance = 1e-8;
-        options.parameter_tolerance = 1e-3;
+        options.parameter_tolerance = 1e-6;
         options.logging_type = ceres::SILENT;
         ceres::Solve(options, &problem, &summary);
         if (!summary.IsSolutionUsable())
