@@ -25,8 +25,7 @@
 
 using namespace std::literals;
 
-struct EMTModel
-{
+struct EMTFullModel {
     using DataType = double;
     using ParameterType = double;
     using SequenceType = QI::SSFPMTSequence;
@@ -77,34 +76,98 @@ struct EMTModel
         const ArrayXT denom =
             (A - B * E1_f * cos(B1 * sequence.FA) -
              (E2_f * E2_f) * (B * E1_f - A * cos(B1 * sequence.FA)));
-        const ArrayXT Gp =
+        const ArrayXT G =
             M0 * E2_fe * (sin(B1 * sequence.FA) * ((1.0 - E1_f) * B + C)) / denom;
-        const ArrayXT bp =
+        const ArrayXT b =
             (E2_f * (A - B * E1_f) * (1.0 + cos(B1 * sequence.FA))) / denom;
-        const ArrayXT ap = E2_f;
+        const ArrayXT &a = E2_f;
 
-        return {Gp, ap, bp};
+        return {G, a, b};
     }
 };
-std::array<const std::string, EMTModel::NV> EMTModel::varying_names{
+std::array<const std::string, EMTFullModel::NV> EMTFullModel::varying_names{
     {"PD"s, "f_b"s, "k_bf"s, "T1_f"s, "T2_f"s}};
-std::array<const std::string, 2> EMTModel::fixed_names{{"f0"s, "B1"s}};
-const QI_ARRAYN(double, 2) EMTModel::fixed_defaults{0.0, 1.0};
+std::array<const std::string, EMTFullModel::NF> EMTFullModel::fixed_names{{"f0"s, "B1"s}};
+const QI_ARRAYN(double, EMTFullModel::NF) EMTFullModel::fixed_defaults{0.0, 1.0};
+
+struct EMTReducedModel {
+    using DataType = double;
+    using ParameterType = double;
+    using SequenceType = QI::SSFPMTSequence;
+    static const int NV = 4;
+    static const int NF = 3;
+
+    static std::array<const std::string, NV> varying_names;
+    static std::array<const std::string, NF> fixed_names;
+    static const QI_ARRAYN(double, NF) fixed_defaults;
+    const SequenceType &sequence;
+    double T2_b = 12.e-6;
+
+    size_t num_outputs() const { return 2; }
+    int output_size(int /* Unused */) { return sequence.size(); }
+
+    template <typename Derived>
+    auto signals(const Eigen::ArrayBase<Derived> &v,
+                 const QI_ARRAYN(double, NF) & f) const
+        -> std::vector<QI_ARRAY(typename Derived::Scalar)>
+    {
+        using T = typename Derived::Scalar;
+        using ArrayXT = Eigen::Array<T, Eigen::Dynamic, 1>;
+        const T &M0 = v[0];
+        const T &f_b = v[1];
+        const T f_f = 1.0 - f_b;
+        const T &k_bf = v[2];
+        const T &T1_f = v[3];
+        const T &T1_b = T1_f;
+        const double &f0_Hz = f[0];
+        const double &B1 = f[1];
+        const double &T2_f = f[2];
+
+        const ArrayXT E1_f = (-sequence.TR / T1_f).exp();
+        const Eigen::ArrayXd E2_f = (-sequence.TR / T2_f).exp();
+        const Eigen::ArrayXd E2_fe = (-sequence.TR / (2.0 * T2_f)).exp();
+        const T k_fb = (f_b > 0.0) ? (k_bf / f_b) : T(0.0);
+        const ArrayXT E1_b = (-sequence.TR / T1_b).exp();
+        const ArrayXT E_k = (-sequence.TR * (k_bf + k_fb)).exp();
+
+        const double G_gauss = QI::Gaussian(f0_Hz, T2_b);
+        const Eigen::ArrayXd intB1sq = pow(sequence.FA / sequence.pulse.p1, 2.0) * 
+                                     (sequence.pulse.p2 / sequence.Trf);
+        const Eigen::ArrayXd E_w = (-M_PI * B1 * B1 * intB1sq * G_gauss).exp();
+        const ArrayXT A = 1.0 - E_w*E1_b*(f_b + f_f*E_k);
+        const ArrayXT B = f_f - E_k*(E_w*E1_b - f_b);
+        const ArrayXT C = f_b*(1.0 - E1_b)*(1.0 - E_k);
+
+        const ArrayXT denom =
+            (A - B * E1_f * cos(B1 * sequence.FA) -
+             (E2_f * E2_f) * (B * E1_f - A * cos(B1 * sequence.FA)));
+        const ArrayXT G =
+            M0 * E2_fe * (sin(B1 * sequence.FA) * ((1.0 - E1_f) * B + C)) / denom;
+        const ArrayXT b =
+            (E2_f * (A - B * E1_f) * (1.0 + cos(B1 * sequence.FA))) / denom;
+
+        return {G, b};
+    }
+};
+std::array<const std::string, EMTReducedModel::NV> EMTReducedModel::varying_names{
+    {"PD"s, "f_b"s, "k_bf"s, "T1_f"s}};
+std::array<const std::string, EMTReducedModel::NF> EMTReducedModel::fixed_names{{"f0"s, "B1"s, "T2_f"s}};
+const QI_ARRAYN(double, EMTReducedModel::NF) EMTReducedModel::fixed_defaults{0.0, 1.0, 0.1};
 
 struct EMTCost
 {
-    const EMTModel &model;
-    const QI_ARRAYN(double, EMTModel::NF) fixed;
+    const EMTReducedModel &model;
+    const QI_ARRAYN(double, EMTReducedModel::NF) fixed;
     const QI_ARRAY(double) G, b;
 
     template <typename T>
     bool operator()(const T *const vin, T *rin) const
     {
         Eigen::Map<QI_ARRAY(T)> r(rin, G.rows() + b.rows());
-        const Eigen::Map<const QI_ARRAYN(T, EMTModel::NV)> v(vin);
+        const Eigen::Map<const QI_ARRAYN(T, EMTReducedModel::NV)> v(vin);
         const auto signals = model.signals(v, fixed);
         r.head(G.rows()) = G - signals[0];
-        r.tail(b.rows()) = b - signals[2];
+        r.tail(b.rows()) = b - signals[1];
         return true;
     }
 };
@@ -117,17 +180,17 @@ struct EMTFit
     using OutputType = double;
     using ResidualType = double;
     using FlagType = int;
-    using ModelType = EMTModel;
+    using ModelType = EMTFullModel;
     ModelType &model;
 
     int n_inputs() const { return 3; }
     int input_size(const int /* Unused */) const { return model.sequence.size(); }
-    int n_fixed() const { return EMTModel::NF; }
-    int n_outputs() const { return EMTModel::NV; }
+    int n_fixed() const { return EMTFullModel::NF; }
+    int n_outputs() const { return EMTFullModel::NV; }
 
     QI::FitReturnType
     fit(const std::vector<Eigen::ArrayXd> &inputs, const Eigen::ArrayXd &fixed,
-        QI_ARRAYN(OutputType, EMTModel::NV) & p, ResidualType &residual,
+        QI_ARRAYN(OutputType, EMTFullModel::NV) &p, ResidualType &residual,
         std::vector<Eigen::ArrayXd> &residuals, FlagType &iterations) const
     {
         const double scale = inputs[0].mean();
@@ -135,40 +198,42 @@ struct EMTFit
         const Eigen::ArrayXd &a = inputs[1];
         const Eigen::ArrayXd &b = inputs[2];
 
-        Eigen::ArrayXd T2_fs = (-model.sequence.TR / a.log());
-        const double T2_f =
-            T2_fs.mean(); // Different TRs so have to average afterwards
+        const double T2_f = (-model.sequence.TR / log(a)).mean(); // Average different TRs
 
-        auto *cost = new ceres::AutoDiffCostFunction<EMTCost, ceres::DYNAMIC, EMTModel::NV>(
-            new EMTCost{model, fixed, G, b}, G.size() + b.size());
+        EMTReducedModel reduced_model{model.sequence, model.T2_b};
+        QI_ARRAYN(double, EMTReducedModel::NF) reduced_fixed{fixed[0], fixed[1], T2_f};
+        auto *cost = new ceres::AutoDiffCostFunction<EMTCost, ceres::DYNAMIC, EMTReducedModel::NV>(
+            new EMTCost{reduced_model, reduced_fixed, G, b}, G.size() + b.size());
         ceres::LossFunction *loss = new ceres::HuberLoss(1.0);
-        p << 15.0, 0.1, 1.0, 1.2, T2_f;
+        QI_ARRAYN(double, EMTReducedModel::NV) reduced_p;
+        reduced_p << 15.0, 0.1, 1.0, 1.2;
         ceres::Problem problem;
-        problem.AddResidualBlock(cost, loss, p.data());
-        problem.SetParameterLowerBound(p.data(), 0, 0.1);
-        problem.SetParameterUpperBound(p.data(), 0, 20.0);
-        problem.SetParameterLowerBound(p.data(), 1, 1e-6);
-        problem.SetParameterUpperBound(p.data(), 1, 0.2 - 1e-6);
-        problem.SetParameterLowerBound(p.data(), 2, 0.1);
-        problem.SetParameterUpperBound(p.data(), 2, 20.0);
-        problem.SetParameterLowerBound(p.data(), 3, 0.05);
-        problem.SetParameterUpperBound(p.data(), 3, 5.0);
-        problem.SetParameterLowerBound(p.data(), 4, T2_f * 0.999);
-        problem.SetParameterUpperBound(p.data(), 4, T2_f * 1.001);
+        problem.AddResidualBlock(cost, loss, reduced_p.data());
+        problem.SetParameterLowerBound(reduced_p.data(), 0, 0.1);
+        problem.SetParameterUpperBound(reduced_p.data(), 0, 20.0);
+        problem.SetParameterLowerBound(reduced_p.data(), 1, 1e-6);
+        problem.SetParameterUpperBound(reduced_p.data(), 1, 0.2 - 1e-6);
+        problem.SetParameterLowerBound(reduced_p.data(), 2, 0.1);
+        problem.SetParameterUpperBound(reduced_p.data(), 2, 20.0);
+        problem.SetParameterLowerBound(reduced_p.data(), 3, 0.05);
+        problem.SetParameterUpperBound(reduced_p.data(), 3, 5.0);
         ceres::Solver::Options options;
         ceres::Solver::Summary summary;
         options.max_num_iterations = 100;
         options.function_tolerance = 1e-7;
         options.gradient_tolerance = 1e-8;
-        options.parameter_tolerance = 1e-6;
+        options.parameter_tolerance = 1e-3;
         options.logging_type = ceres::SILENT;
         ceres::Solve(options, &problem, &summary);
         if (!summary.IsSolutionUsable())
         {
             return std::make_tuple(false, summary.FullReport());
         }
-        p[0] *= scale;
-        // f_b is converted to F internally so don't convert here
+        p[0] = reduced_p[0]*scale;
+        p[1] = reduced_p[1];
+        p[2] = reduced_p[2];
+        p[3] = reduced_p[3];
+        p[4] = T2_f;
         residual = summary.final_cost;
         if (residuals.size() > 0)
         {
@@ -239,10 +304,10 @@ int main(int argc, char **argv)
     rapidjson::Document input =
         seq_arg ? QI::ReadJSON(seq_arg.Get()) : QI::ReadJSON(std::cin);
     QI::SSFPMTSequence ssfp(QI::GetMember(input, "SSFPMT"));
-    EMTModel model{ssfp};
+    EMTFullModel model{ssfp};
     if (simulate)
     {
-        QI::SimulateModel<EMTModel, true>(
+        QI::SimulateModel<EMTFullModel, true>(
             input, model, {f0.Get(), B1.Get()},
             {G_path.Get(), a_path.Get(), b_path.Get()}, verbose, simulate.Get());
     }
@@ -273,10 +338,10 @@ int main(int argc, char **argv)
         QI_LOG(verbose, "Elapsed time was " << fit_filter->GetTotalTime() << "s\n"
                                             << "Writing results files.");
         std::string outPrefix = outarg.Get() + "EMT_";
-        for (int i = 0; i < EMTModel::NV; i++)
+        for (int i = 0; i < model.NV; i++)
         {
             QI::WriteImage(fit_filter->GetOutput(i),
-                           outPrefix + EMTModel::varying_names.at(i) + QI::OutExt());
+                           outPrefix + model.varying_names.at(i) + QI::OutExt());
         }
         QI_LOG(verbose, "Finished.");
     }
