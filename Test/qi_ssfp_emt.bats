@@ -19,7 +19,7 @@ cat > emt.json <<OUT
         "FA":  [16, 32, 16, 32],
         "TR":  [0.008, 0.008, 0.009, 0.009],
         "Trf": [0.000256, 0.000256, 0.001024, 0.001024],
-        "pulse": { "p1": 0.01047423, "p2": 0.4485347 }
+        "pulse": { "p1": 0.203372, "p2": 0.4485347 }
     }
 }
 OUT
@@ -52,5 +52,4 @@ qidiff --baseline=f_b$EXT --input=EMT_f_b$EXT --noise=$NOISE --tolerance=$TOL --
 # qidiff --baseline=k_bf$EXT --input=EMT_k_bf$EXT --noise=$NOISE --tolerance=$TOL --verbose
 qidiff --baseline=T1_f$EXT --input=EMT_T1_f$EXT --noise=$NOISE --tolerance=$TOL --verbose
 qidiff --baseline=T2_f$EXT --input=EMT_T2_f$EXT --noise=$NOISE --tolerance=$TOL --verbose
-return 1
 }

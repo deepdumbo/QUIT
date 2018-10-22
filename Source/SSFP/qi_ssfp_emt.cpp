@@ -50,7 +50,8 @@ struct EMTModel
         using T = typename Derived::Scalar;
         using ArrayXT = Eigen::Array<T, Eigen::Dynamic, 1>;
         const T &M0 = v[0];
-        const T &F = v[1] / (1.0 - v[1]); // Convert from f_b to F
+        const T &f_b = v[1];
+        const T f_f = 1.0 - f_b;
         const T &k_bf = v[2];
         const T &T1_f = v[3];
         const T &T2_f = v[4];
@@ -58,38 +59,28 @@ struct EMTModel
         const double &f0_Hz = f[0];
         const double &B1 = f[1];
 
-        const ArrayXT E1f = (-sequence.TR / T1_f).exp();
+        const ArrayXT E1_f = (-sequence.TR / T1_f).exp();
         const ArrayXT E2_f = (-sequence.TR / T2_f).exp();
         const ArrayXT E2_fe = (-sequence.TR / (2.0 * T2_f)).exp();
-        const T k_fb = (F > 0.0) ? (k_bf / F) : T(0.0);
+        const T k_fb = (f_b > 0.0) ? (k_bf / f_b) : T(0.0);
         const ArrayXT E1_b = (-sequence.TR / T1_b).exp();
-        const ArrayXT fk = (-sequence.TR * (k_bf + k_fb)).exp();
+        const ArrayXT E_k = (-sequence.TR * (k_bf + k_fb)).exp();
 
         const double G_gauss = QI::Gaussian(f0_Hz, T2_b);
         const Eigen::ArrayXd intB1sq = pow(sequence.FA / sequence.pulse.p1, 2.0) * 
                                      (sequence.pulse.p2 / sequence.Trf);
-        const Eigen::ArrayXd fw = (-M_PI * B1 * B1 * intB1sq * G_gauss).exp();
-        QI_DB( B1 );
-        QI_DBVEC( sequence.FA );
-        QI_DBVEC( sequence.Trf );
-        QI_DB( sequence.pulse.p1 );
-        QI_DB( sequence.pulse.p2 );
-        QI_DBVECT( Wcwpe )
-        QI_DBVECT( Wcwpe * Wcwpe );
-        QI_DBVECT( Wcwpe * sequence.Trf );
-        QI_DB( G_gauss )
-        QI_DBVECT( fw )
-        const ArrayXT A = 1.0 + F - fw * E1_b * (F + fk);
-        const ArrayXT B = 1.0 + fk * (F - fw * E1_b * (F + 1.0));
-        const ArrayXT C = F * (1.0 - E1_b) * (1.0 - fk);
+        const Eigen::ArrayXd E_w = (-M_PI * B1 * B1 * intB1sq * G_gauss).exp();
+        const ArrayXT A = 1.0 - E_w*E1_b*(f_b + f_f*E_k);
+        const ArrayXT B = f_f - E_k*(E_w*E1_b - f_b);
+        const ArrayXT C = f_b*(1.0 - E1_b)*(1.0 - E_k);
 
         const ArrayXT denom =
-            (A - B * E1f * cos(B1 * sequence.FA) -
-             (E2_f * E2_f) * (B * E1f - A * cos(B1 * sequence.FA)));
+            (A - B * E1_f * cos(B1 * sequence.FA) -
+             (E2_f * E2_f) * (B * E1_f - A * cos(B1 * sequence.FA)));
         const ArrayXT Gp =
-            M0 * E2_fe * (sin(B1 * sequence.FA) * ((1.0 - E1f) * B + C)) / denom;
+            M0 * E2_fe * (sin(B1 * sequence.FA) * ((1.0 - E1_f) * B + C)) / denom;
         const ArrayXT bp =
-            (E2_f * (A - B * E1f) * (1.0 + cos(B1 * sequence.FA))) / denom;
+            (E2_f * (A - B * E1_f) * (1.0 + cos(B1 * sequence.FA))) / denom;
         const ArrayXT ap = E2_f;
 
         return {Gp, ap, bp};
