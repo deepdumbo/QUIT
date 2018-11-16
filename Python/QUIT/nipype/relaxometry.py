@@ -98,6 +98,71 @@ class QiDespot1(CommandLine):
         
         return outputs
 
+############################ qidespot1sim ############################
+
+class QiDespot1SimInputSpec(CommandLineInputSpec):
+    # Inputs
+    spgr_file = File(exists=False, argstr='%s', mandatory=True,
+        position=0, desc='Path to write SPGR/FLASH image')
+
+    param_file = File(desc='Parameter .json file', position=1, argstr='< %s', 
+        xor=['param_dict'], mandatory=True, exists=True)
+
+    param_dict = traits.Dict(desc='dictionary trait', position=1, 
+        argstr='', mandatory=True, xor=['param_file'])
+
+    # Options
+    verbose = traits.Bool(desc='Print more information', argstr='-v')
+    threads = traits.Int(desc='Use N threads (default=4, 0=hardware limit)', argstr='--threads=%d')
+    prefix = traits.String(desc='Add a prefix to output filenames', argstr='--out=%s')
+    noise = traits.Float(desc='Noise level to add to simulation', argstr='--simulate=%f', default_value=0.0, usedefault=True)
+    b1map_file = File(desc='B1 map (ratio) file', argstr='--B1=%s')
+    mask_file = File(desc='Only process voxels within the mask', argstr='--mask=%s')
+    environ = {'QUIT_EXT':'NIFTI_GZ'}
+    
+class QiDespot1SimOutputSpec(TraitedSpec):
+    spgr_image = File(desc="Path to SPGR/FLASH image")
+
+class QiDespot1Sim(CommandLine):
+    """
+    Run DESPOT1 simulation with qidespot1
+
+    Example with parameter dictionary
+    -------
+    >>> from QUIT.nipype.relaxometry import QiDespot1
+    >>> params = {'SPGR': {'TR':5E-3, 'FA':[5,10]},
+                  'T1File': 'D1_T1.nii.gz',
+                  'PDFile': 'D1_PD.nii.gz'}
+    >>> d1sim = QiDespot1Sim(prefix='nipype_', param_dict=params)
+    >>> d1sim.inputs.spgr_file = 'SPGR.nii.gz'
+    >>> d1sim_res = d1.run()
+    >>> print(d1sim_res.outputs)
+
+    """
+
+    _cmd = 'qidespot1'
+    input_spec = QiDespot1SimInputSpec
+    output_spec = QiDespot1SimOutputSpec
+
+    def _format_arg(self, name, spec, value):
+        if name == 'param_dict':
+            with open('_tmp_input.json', 'w') as outfile:
+                json.dump(value, outfile)
+            return "< _tmp_input.json"
+
+        return super(QiDespot1Sim, self)._format_arg(name, spec, value)
+
+    def _list_outputs(self):
+        outputs = self.output_spec().get()
+        
+        prefix = ''
+        if self.inputs.prefix:
+            prefix = self.inputs.prefix
+        
+        outputs['spgr_image'] = prefix + self.inputs.spgr_file
+        
+        return outputs
+
 ############################ qidespot1hifi ############################
 
 class QiDespot1HifiInputSpec(CommandLineInputSpec):
