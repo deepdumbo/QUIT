@@ -19,7 +19,7 @@ import json
 
 ############################ qidespot1 ############################
 
-class QiDespot1InputSpec(CommandLineInputSpec):
+class QIDespot1InputSpec(CommandLineInputSpec):
     # Inputs
     spgr_file = File(exists=True, argstr='%s', mandatory=True,
         position=0, desc='Path to SPGR data')
@@ -43,28 +43,28 @@ class QiDespot1InputSpec(CommandLineInputSpec):
     clamp_T1 = traits.Float(desc='Clamp T1 between 0 and value', argstr='--clampT1=%f')
     environ = {'QUIT_EXT':'NIFTI_GZ'}
     
-class QiDespot1OutputSpec(TraitedSpec):
+class QIDespot1OutputSpec(TraitedSpec):
     t1_map = File(desc="Path to T1 map")
     pd_map = File(desc="Path to PD map")
     residual_map = File(desc="Path to residual map")
 
-class QiDespot1(CommandLine):
+class QIDespot1(CommandLine):
     """
     Run DESPOT1 analysis with qidespot1
 
     Example with parameter file
     -------
-    >>> from QUIT.nipype.relaxometry import QiDespot1
-    >>> d1 = QiDespot1(prefix='nipype_', param_file='spgr_params.json')
+    >>> from QUIT.nipype.relaxometry import QIDespot1
+    >>> d1 = QIDespot1(prefix='nipype_', param_file='spgr_params.json')
     >>> d1.inputs.in_file = 'SPGR.nii.gz'
     >>> d1_res = d1.run()
     >>> print(d1_res.outputs)
 
     Example with parameter dictionary
     -------
-    >>> from QUIT.nipype.relaxometry import QiDespot1
+    >>> from QUIT.nipype.relaxometry import QIDespot1
     >>> params = {'SPGR': {'TR':5E-3, 'FA':[5,10]} }
-    >>> d1 = QiDespot1(prefix='nipype_', param_dict=params)
+    >>> d1 = QIDespot1(prefix='nipype_', param_dict=params)
     >>> d1.inputs.in_file = 'SPGR.nii.gz'
     >>> d1_res = d1.run()
     >>> print(d1_res.outputs)
@@ -72,8 +72,8 @@ class QiDespot1(CommandLine):
     """
 
     _cmd = 'qidespot1'
-    input_spec = QiDespot1InputSpec
-    output_spec = QiDespot1OutputSpec
+    input_spec = QIDespot1InputSpec
+    output_spec = QIDespot1OutputSpec
 
     def _format_arg(self, name, spec, value):
         if name == 'param_dict':
@@ -81,7 +81,7 @@ class QiDespot1(CommandLine):
                 json.dump(value, outfile)
             return "< _tmp_input.json"
 
-        return super(QiDespot1, self)._format_arg(name, spec, value)
+        return super(QIDespot1, self)._format_arg(name, spec, value)
 
     def _list_outputs(self):
         outputs = self.output_spec().get()
@@ -100,7 +100,7 @@ class QiDespot1(CommandLine):
 
 ############################ qidespot1sim ############################
 
-class QiDespot1SimInputSpec(CommandLineInputSpec):
+class QIDespot1SimInputSpec(CommandLineInputSpec):
     # Inputs
     spgr_file = File(exists=False, argstr='%s', mandatory=True,
         position=0, desc='Path to write SPGR/FLASH image')
@@ -120,20 +120,20 @@ class QiDespot1SimInputSpec(CommandLineInputSpec):
     mask_file = File(desc='Only process voxels within the mask', argstr='--mask=%s')
     environ = {'QUIT_EXT':'NIFTI_GZ'}
     
-class QiDespot1SimOutputSpec(TraitedSpec):
+class QIDespot1SimOutputSpec(TraitedSpec):
     spgr_image = File(desc="Path to SPGR/FLASH image")
 
-class QiDespot1Sim(CommandLine):
+class QIDespot1Sim(CommandLine):
     """
     Run DESPOT1 simulation with qidespot1
 
     Example with parameter dictionary
     -------
-    >>> from QUIT.nipype.relaxometry import QiDespot1
+    >>> from QUIT.nipype.relaxometry import QIDespot1
     >>> params = {'SPGR': {'TR':5E-3, 'FA':[5,10]},
                   'T1File': 'D1_T1.nii.gz',
                   'PDFile': 'D1_PD.nii.gz'}
-    >>> d1sim = QiDespot1Sim(prefix='nipype_', param_dict=params)
+    >>> d1sim = QIDespot1Sim(prefix='nipype_', param_dict=params)
     >>> d1sim.inputs.spgr_file = 'SPGR.nii.gz'
     >>> d1sim_res = d1.run()
     >>> print(d1sim_res.outputs)
@@ -141,8 +141,8 @@ class QiDespot1Sim(CommandLine):
     """
 
     _cmd = 'qidespot1'
-    input_spec = QiDespot1SimInputSpec
-    output_spec = QiDespot1SimOutputSpec
+    input_spec = QIDespot1SimInputSpec
+    output_spec = QIDespot1SimOutputSpec
 
     def _format_arg(self, name, spec, value):
         if name == 'param_dict':
@@ -150,7 +150,7 @@ class QiDespot1Sim(CommandLine):
                 json.dump(value, outfile)
             return "< _tmp_input.json"
 
-        return super(QiDespot1Sim, self)._format_arg(name, spec, value)
+        return super(QIDespot1Sim, self)._format_arg(name, spec, value)
 
     def _list_outputs(self):
         outputs = self.output_spec().get()
@@ -165,7 +165,7 @@ class QiDespot1Sim(CommandLine):
 
 ############################ qidespot1hifi ############################
 
-class QiDespot1HifiInputSpec(CommandLineInputSpec):
+class QIDespot1HifiInputSpec(CommandLineInputSpec):
     # Inputs
     spgr_file = File(exists=True, argstr='%s', mandatory=True,
         position=0, desc='Path to SPGR data')
@@ -189,22 +189,22 @@ class QiDespot1HifiInputSpec(CommandLineInputSpec):
     clamp_T1 = traits.Float(desc='Clamp T1 between 0 and value', argstr='--clampT1=%f')
     environ = {'QUIT_EXT':'NIFTI_GZ'}
 
-class QiDespot1HifiOutputSpec(TraitedSpec):
+class QIDespot1HifiOutputSpec(TraitedSpec):
     t1_map = File(desc="Path to T1 map")
     pd_map = File(desc="Path to PD map")
     b1_map = File(desc="Path to B1 map")
     residual_map = File(desc="Path to residual map")
 
-class QiDespot1Hifi(CommandLine):
+class QIDespot1Hifi(CommandLine):
     """
     Calculate T1 & B1 map with the DESPOT1-HIFI method
 
     Example
     -------
-    >>> from QUIT.nipype.relaxometry import QiDespot1Hifi
+    >>> from QUIT.nipype.relaxometry import QIDespot1Hifi
     >>> params = {'SPGR': {'TR':5E-3, 'FA':[5,10]}, 
                   'MPRAGE': { 'FA': 5, 'TR': 5E-3, 'TI': 0.45, 'TD': 0, 'eta': 1, 'ETL': 64, 'k0': 0 }}
-    >>> hifi = QiDespot1Hifi(prefix='nipype_', param_dict=params)
+    >>> hifi = QIDespot1Hifi(prefix='nipype_', param_dict=params)
     >>> hifi.inputs.spgr_file = 'SPGR.nii.gz'
     >>> hifi.inputs.mprage_file = 'MPRAGE.nii.gz'
     >>> hifi_res = hifi.run()
@@ -213,8 +213,8 @@ class QiDespot1Hifi(CommandLine):
     """
 
     _cmd = 'qidespot1hifi'
-    input_spec = QiDespot1HifiInputSpec
-    output_spec = QiDespot1HifiOutputSpec
+    input_spec = QIDespot1HifiInputSpec
+    output_spec = QIDespot1HifiOutputSpec
 
     def _format_arg(self, name, spec, value):
         if name == 'param_dict':
@@ -222,7 +222,7 @@ class QiDespot1Hifi(CommandLine):
                 json.dump(value, outfile)
             return "< _tmp_input.json"
 
-        return super(QiDespot1Hifi, self)._format_arg(name, spec, value)
+        return super(QIDespot1Hifi, self)._format_arg(name, spec, value)
 
     def _list_outputs(self):
         outputs = self.output_spec().get()
@@ -242,7 +242,7 @@ class QiDespot1Hifi(CommandLine):
 
 ############################ qidespot2 ############################
 
-class QiDespot2InputSpec(CommandLineInputSpec):
+class QIDespot2InputSpec(CommandLineInputSpec):
     # Inputs
 
     t1_map = File(exists=True, argstr='%s', mandatory=True,
@@ -268,19 +268,19 @@ class QiDespot2InputSpec(CommandLineInputSpec):
     clamp_T2 = traits.Float(desc='Clamp T2 between 0 and value', argstr='--clampT1=%f')
     environ = {'QUIT_EXT':'NIFTI_GZ'}
 
-class QiDespot2OutputSpec(TraitedSpec):
+class QIDespot2OutputSpec(TraitedSpec):
     t2_map = File(desc="Path to T2 map")
     pd_map = File(desc="Path to PD map")
     residual_map = File(desc="Path to residual map")
 
-class QiDespot2(CommandLine):
+class QIDespot2(CommandLine):
     """
     Run DESPOT2 analysis with qidespot2
 
     Example with parameter file
     -------
-    >>> from QUIT.nipype.relaxometry import QiDespot2
-    >>> d1 = QiDespot2(prefix='nipype_', param_file='ssfp_params.json')
+    >>> from QUIT.nipype.relaxometry import QIDespot2
+    >>> d1 = QIDespot2(prefix='nipype_', param_file='ssfp_params.json')
     >>> d2.inputs.in_file = 'SSFP.nii.gz'
     >>> d2.inputs.t1_file = 'D1_T1.nii.gz'
     >>> d2_res = d2.run()
@@ -288,9 +288,9 @@ class QiDespot2(CommandLine):
 
     Example with parameter dictionary
     -------
-    >>> from QUIT.nipype.relaxometry import QiDespot2
+    >>> from QUIT.nipype.relaxometry import QIDespot2
     >>> params = {'SSFP': {'TR':5E-3, 'FA':[10,50]} }
-    >>> d2 = QiDespot2(prefix='nipype_', param_dict=params)
+    >>> d2 = QIDespot2(prefix='nipype_', param_dict=params)
     >>> d2.inputs.in_file = 'SSFP.nii.gz'
     >>> d2.inputs.t1_file = 'D1_T1.nii.gz'
     >>> d2_res = d2.run()
@@ -299,8 +299,8 @@ class QiDespot2(CommandLine):
     """
 
     _cmd = 'qidespot2'
-    input_spec = QiDespot2InputSpec
-    output_spec = QiDespot2OutputSpec
+    input_spec = QIDespot2InputSpec
+    output_spec = QIDespot2OutputSpec
 
     def _format_arg(self, name, spec, value):
         if name == 'param_dict':
@@ -308,7 +308,7 @@ class QiDespot2(CommandLine):
                 json.dump(value, outfile)
             return "< _tmp_input.json"
 
-        return super(QiDespot2, self)._format_arg(name, spec, value)
+        return super(QIDespot2, self)._format_arg(name, spec, value)
 
     def _list_outputs(self):
         outputs = self.output_spec().get()
@@ -327,7 +327,7 @@ class QiDespot2(CommandLine):
 
 ############################ qidespot2fm ############################
 
-class QiDespot2FMInputSpec(CommandLineInputSpec):
+class QIDespot2FMInputSpec(CommandLineInputSpec):
     # Inputs
 
     t1_map = File(exists=True, argstr='%s', mandatory=True,
@@ -350,21 +350,21 @@ class QiDespot2FMInputSpec(CommandLineInputSpec):
     algo = traits.Enum("LLS","WLS","NLS", desc="Choose algorithm", argstr="--algo=%d")
     environ = {'QUIT_EXT':'NIFTI_GZ'}
 
-class QiDespot2FMOutputSpec(TraitedSpec):
+class QIDespot2FMOutputSpec(TraitedSpec):
     t2_map = File(desc="Path to T2 map")
     pd_map = File(desc="Path to PD map")
     f0_map = File(desc="Path to f0 (off-resonance) map")
     residual_map = File(desc="Path to residual map")
 
-class QiDespot2FM(CommandLine):
+class QIDespot2FM(CommandLine):
     """
     Run DESPOT2-FM analysis
 
     Example
     -------
-    >>> from QUIT.nipype.relaxometry import QiDespot2FM
+    >>> from QUIT.nipype.relaxometry import QIDespot2FM
     >>> params = {'SSFP': {'TR':5E-3, 'FA':[10,10,50,50], 'PhaseInc':[180,180,0,0] }
-    >>> fm = QiDespot2FM(prefix='nipype_', param_dict=params)
+    >>> fm = QIDespot2FM(prefix='nipype_', param_dict=params)
     >>> fm.inputs.in_file = 'SSFP.nii.gz'
     >>> fm.inputs.t1_file = 'D1_T1.nii.gz'
     >>> fm_res = fm.run()
@@ -373,8 +373,8 @@ class QiDespot2FM(CommandLine):
     """
 
     _cmd = 'qidespot2fm'
-    input_spec = QiDespot2FMInputSpec
-    output_spec = QiDespot2FMOutputSpec
+    input_spec = QIDespot2FMInputSpec
+    output_spec = QIDespot2FMOutputSpec
 
     def _format_arg(self, name, spec, value):
         if name == 'param_dict':
@@ -382,7 +382,7 @@ class QiDespot2FM(CommandLine):
                 json.dump(value, outfile)
             return "< _tmp_input.json"
 
-        return super(QiDespot2FM, self)._format_arg(name, spec, value)
+        return super(QIDespot2FM, self)._format_arg(name, spec, value)
 
     def _list_outputs(self):
         outputs = self.output_spec().get()
@@ -402,7 +402,7 @@ class QiDespot2FM(CommandLine):
 
 ############################ qimcdespot ############################
 
-class QiDespot2FMInputSpec(CommandLineInputSpec):
+class QIDespot2FMInputSpec(CommandLineInputSpec):
     # Inputs
 
     t1_map = File(exists=True, argstr='%s', mandatory=True,
@@ -425,21 +425,21 @@ class QiDespot2FMInputSpec(CommandLineInputSpec):
     algo = traits.Enum("LLS","WLS","NLS", desc="Choose algorithm", argstr="--algo=%d")
     environ = {'QUIT_EXT':'NIFTI_GZ'}
 
-class QiDespot2FMOutputSpec(TraitedSpec):
+class QIDespot2FMOutputSpec(TraitedSpec):
     t2_map = File(desc="Path to T2 map")
     pd_map = File(desc="Path to PD map")
     f0_map = File(desc="Path to f0 (off-resonance) map")
     residual_map = File(desc="Path to residual map")
 
-class QiDespot2FM(CommandLine):
+class QIDespot2FM(CommandLine):
     """
     Run DESPOT2-FM analysis
 
     Example
     -------
-    >>> from QUIT.nipype.relaxometry import QiDespot2FM
+    >>> from QUIT.nipype.relaxometry import QIDespot2FM
     >>> params = {'SSFP': {'TR':5E-3, 'FA':[10,10,50,50], 'PhaseInc':[180,180,0,0] }
-    >>> fm = QiDespot2FM(prefix='nipype_', param_dict=params)
+    >>> fm = QIDespot2FM(prefix='nipype_', param_dict=params)
     >>> fm.inputs.in_file = 'SSFP.nii.gz'
     >>> fm.inputs.t1_file = 'D1_T1.nii.gz'
     >>> fm_res = fm.run()
@@ -448,8 +448,8 @@ class QiDespot2FM(CommandLine):
     """
 
     _cmd = 'qidespot2fm'
-    input_spec = QiDespot2FMInputSpec
-    output_spec = QiDespot2FMOutputSpec
+    input_spec = QIDespot2FMInputSpec
+    output_spec = QIDespot2FMOutputSpec
 
     def _format_arg(self, name, spec, value):
         if name == 'param_dict':
@@ -457,7 +457,7 @@ class QiDespot2FM(CommandLine):
                 json.dump(value, outfile)
             return "< _tmp_input.json"
 
-        return super(QiDespot2FM, self)._format_arg(name, spec, value)
+        return super(QIDespot2FM, self)._format_arg(name, spec, value)
 
     def _list_outputs(self):
         outputs = self.output_spec().get()
