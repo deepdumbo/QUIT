@@ -114,7 +114,6 @@ class QIDespot1SimInputSpec(CommandLineInputSpec):
     # Options
     verbose = traits.Bool(desc='Print more information', argstr='-v')
     threads = traits.Int(desc='Use N threads (default=4, 0=hardware limit)', argstr='--threads=%d')
-    prefix = traits.String(desc='Add a prefix to output filenames', argstr='--out=%s')
     noise = traits.Float(desc='Noise level to add to simulation', argstr='--simulate=%f', default_value=0.0, usedefault=True)
     b1map_file = File(desc='B1 map (ratio) file', argstr='--B1=%s')
     mask_file = File(desc='Only process voxels within the mask', argstr='--mask=%s')
@@ -154,13 +153,7 @@ class QIDespot1Sim(CommandLine):
 
     def _list_outputs(self):
         outputs = self.output_spec().get()
-        
-        prefix = ''
-        if self.inputs.prefix:
-            prefix = self.inputs.prefix
-        
-        outputs['spgr_image'] = prefix + self.inputs.spgr_file
-        
+        outputs['spgr_image'] = self.inputs.spgr_file
         return outputs
 
 ############################ qidespot1hifi ############################
@@ -238,6 +231,72 @@ class QIDespot1Hifi(CommandLine):
         if self.inputs.residuals:
             outputs['residual_map'] = prefix + 'HIFI_residual.nii.gz'
         
+        return outputs
+
+############################ qidespot1hifisim ############################
+
+class QIDespot1HifiSimInputSpec(CommandLineInputSpec):
+    # Inputs
+    spgr_file = File(exists=True, argstr='%s', mandatory=True,
+        position=0, desc='Path for output SPGR image')
+
+    mprage_file = File(exists=True, argstr='%s', mandatory=True,
+        position=0, desc='Path for output MPRAGE image')
+
+    param_file = File(desc='Parameter .json file', position=2, argstr='< %s', 
+        xor=['param_dict'], mandatory=True, exists=True)
+
+    param_dict = traits.Dict(desc='dictionary trait', position=2, 
+        argstr='', mandatory=True, xor=['param_file'])
+
+    # Options
+    verbose = traits.Bool(desc='Print more information', argstr='-v')
+    threads = traits.Int(desc='Use N threads (default=4, 0=hardware limit)', argstr='--threads=%d')
+    noise = traits.Float(desc='Noise level to add to simulation', argstr='--simulate=%f', default_value=0.0, usedefault=True)
+    b1map_file = File(desc='B1 map (ratio) file', argstr='--B1=%s')
+    mask_file = File(desc='Only process voxels within the mask', argstr='--mask=%s')
+
+    environ = {'QUIT_EXT':'NIFTI_GZ'}
+
+class QIDespot1HifiSimOutputSpec(TraitedSpec):
+    spgr_image = File(desc="Output SPGR image")
+    mprage_image = File(desc="Output MPRAGE image")
+
+class QIDespot1HifiSim(CommandLine):
+    """
+    Simulate SPGR/FLASH and MPRAGE images using DESPOT1-HIFI model
+
+    Example
+    -------
+    >>> from QUIT.nipype.relaxometry import QIDespot1HifiSim
+    >>> params = {'SPGR': {'TR':5E-3, 'FA':[5,10]}, 
+                  'MPRAGE': { 'FA': 5, 'TR': 5E-3, 'TI': 0.45, 'TD': 0, 'eta': 1, 'ETL': 64, 'k0': 0 },
+                  'PDFile': 'PD.nii.gz',
+                  'T1File': 'T1.nii.gz'}
+    >>> hifisim = QIDespot1HifiSim(prefix='nipype_', param_dict=params)
+    >>> hifisim.inputs.spgr_file = 'SPGR.nii.gz'
+    >>> hifisim.inputs.mprage_file = 'MPRAGE.nii.gz'
+    >>> hifisim_res = hifi.run()
+    >>> print(hifisim_res.outputs)
+
+    """
+
+    _cmd = 'qidespot1hifi'
+    input_spec = QIDespot1HifiSimInputSpec
+    output_spec = QIDespot1HifiSimOutputSpec
+
+    def _format_arg(self, name, spec, value):
+        if name == 'param_dict':
+            with open('_tmp_input.json', 'w') as outfile:
+                json.dump(value, outfile)
+            return "< _tmp_input.json"
+
+        return super(QIDespot1HifiSim, self)._format_arg(name, spec, value)
+
+    def _list_outputs(self):
+        outputs = self.output_spec().get()
+        outputs['spgr_image'] = self.inputs.spgr_file
+        outputs['mprage_image'] = self.inputs.mprage_file
         return outputs
 
 ############################ qidespot2 ############################
@@ -323,6 +382,67 @@ class QIDespot2(CommandLine):
         if self.inputs.residuals:
             outputs['residual_map'] = prefix + 'D2_residual.nii.gz'
         
+        return outputs
+
+############################ qidespot2sim ############################
+
+class QIDespot2SimInputSpec(CommandLineInputSpec):
+    # Inputs
+
+    t1_file = File(exists=True, argstr='%s', mandatory=True,
+        position=0, desc='Path for input T1 map')
+    ssfp_file = File(exists=True, argstr='%s', mandatory=True,
+        position=1, desc='Path for output SSFP data')
+    param_file = File(desc='Parameter .json file', position=2, argstr='< %s', 
+        xor=['param_dict'], mandatory=True, exists=True)
+    param_dict = traits.Dict(desc='dictionary trait', position=2, 
+        argstr='', mandatory=True, xor=['param_file'])
+
+    # Options
+    verbose = traits.Bool(desc='Print more information', argstr='-v')
+    threads = traits.Int(desc='Use N threads (default=4, 0=hardware limit)', argstr='--threads=%d')
+    noise = traits.Float(desc='Noise level to add to simulation', argstr='--simulate=%f', default_value=0.0, usedefault=True)
+    b1map_file = File(desc='B1 map (ratio) file', argstr='--B1=%s')
+    mask_file = File(desc='Only process voxels within the mask', argstr='--mask=%s')
+    ellipse = traits.Bool(desc="Data is ellipse geometric solution", argstr='-e')
+    environ = {'QUIT_EXT':'NIFTI_GZ'}
+
+class QIDespot2SimOutputSpec(TraitedSpec):
+    ssfp_image = File(desc="Path to SSFP image")
+
+class QIDespot2Sim(CommandLine):
+    """
+    Run DESPOT2 simulation
+
+    Example with parameter dictionary
+    -------
+    >>> from QUIT.nipype.relaxometry import QIDespot2Sim
+    >>> params = {'SSFP': {'TR':5E-3, 'FA':[10,50]},
+                  'PDFile': 'PD.nii.gz',
+                  'T1File': 'T1.nii.gz' }
+    >>> d2sim = QIDespot2Sim(prefix='nipype_', param_dict=params)
+    >>> d2sim.inputs.in_file = 'SSFP.nii.gz'
+    >>> d2sim.inputs.t1_file = 'D1_T1.nii.gz'
+    >>> d2sim_res = d2.run()
+    >>> print(d2sim_res.outputs)
+
+    """
+
+    _cmd = 'qidespot2'
+    input_spec = QIDespot2SimInputSpec
+    output_spec = QIDespot2SimOutputSpec
+
+    def _format_arg(self, name, spec, value):
+        if name == 'param_dict':
+            with open('_tmp_input.json', 'w') as outfile:
+                json.dump(value, outfile)
+            return "< _tmp_input.json"
+
+        return super(QIDespot2Sim, self)._format_arg(name, spec, value)
+
+    def _list_outputs(self):
+        outputs = self.output_spec().get()
+        outputs['ssfp_image'] = self.inputs.ssfp_file
         return outputs
 
 ############################ qidespot2fm ############################
