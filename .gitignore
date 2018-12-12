@@ -3,3 +3,4 @@
 _tmp_input.json
 *-checkpoint.ipynb
 *.pyc
+*.egg-info

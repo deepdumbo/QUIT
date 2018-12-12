@@ -17,7 +17,7 @@ import json
 from nipype import logging
 from nipype.utils.filemanip import fname_presuffix
 from nipype.interfaces.base import (traits, isdefined, CommandLine, CommandLineInputSpec,
-                    PackageInfo)
+                                    PackageInfo)
 from nipype.external.due import BibTeX
 
 
@@ -25,10 +25,11 @@ class QUITCommandInputSpec(CommandLineInputSpec):
     """
     Base Input Specification for all QUIT Commands
     """
-    
+
     # Inputs that are common to all program
     verbose = traits.Bool(desc='Print more information', argstr='-v')
-    environ = {'QUIT_EXT':'NIFTI_GZ'}
+    environ = {'QUIT_EXT': 'NIFTI_GZ'}
+
 
 class QUITCommand(CommandLine):
     """
@@ -61,10 +62,51 @@ class QUITCommand(CommandLine):
         Add prefix to file in full_path
         """
         if self.inputs.prefix:
-            p,f = os.path.split(full_path)
+            p, f = os.path.split(full_path)
             return os.path.join(p, self.inputs.prefix + f)
         else:
             return full_path
+
+    def _gen_fname(self,
+                   basename,
+                   cwd=None,
+                   suffix=None):
+        """Generate a filename based on the given parameters.
+
+        The filename will take the form: cwd/basename<suffix><ext>.
+        If change_ext is True, it will use the extentions specified in
+        <instance>intputs.output_type.
+
+        Parameters
+        ----------
+        basename : str
+            Filename to base the new filename on.
+        cwd : str
+            Path to prefix to the new filename. (default is os.getcwd())
+        suffix : str
+            Suffix to add to the `basename`.  (defaults is '' )
+        change_ext : bool
+            Flag to change the filename extension to the FSL output type.
+            (default True)
+
+        Returns
+        -------
+        fname : str
+            New filename based on given parameters.
+
+        """
+
+        if basename == '':
+            msg = 'Unable to generate filename for command %s. ' % self.cmd
+            msg += 'basename is not set!'
+            raise ValueError(msg)
+        if cwd is None:
+            cwd = os.getcwd()
+        if suffix is None:
+            suffix = ''
+        fname = fname_presuffix(
+            basename, suffix=suffix, use_ext=True, newpath=cwd)
+        return fname
 
     def _process_params(self, name, spec, value):
         """
@@ -84,9 +126,9 @@ def check_QUIT():
     """
     pass
 
+
 def version_QUIT():
     """
     Check QUIT version
     """
     pass
-
