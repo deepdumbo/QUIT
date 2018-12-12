@@ -25,7 +25,7 @@ class QIDespot1InputSpec(QUITCommandInputSpec):
     param_dict = traits.Dict(desc='dictionary trait', position=-1, 
         argstr='', mandatory=True, xor=['param_file'])
         
-    in_file = File(exists=True, argstr='%s', mandatory=True,
+    spgr_file = File(exists=True, argstr='%s', mandatory=True,
         position=-2, desc='Path to SPGR data')
     
     # Options
@@ -109,7 +109,7 @@ class QIDespot1SimInputSpec(QUITCommandInputSpec):
 class QIDespot1SimOutputSpec(TraitedSpec):
     spgr_image = File(desc="Path to SPGR/FLASH image")
 
-class QIDespot1Sim(QUITCommandLine):
+class QIDespot1Sim(QUITCommand):
     """
     Run DESPOT1 simulation with qidespot1
 
@@ -474,7 +474,7 @@ class QIDespot2FM(QUITCommand):
 
 ############################ qimcdespot ############################
 # Status: Everything is there but not tested
-class QIMcDespotInputSpec(QUITCommandInputSpec):
+class QIMCDespotInputSpec(QUITCommandInputSpec):
     # Inputs
     spgr_file = File(exists=True, argstr='%s', mandatory=True,
         position=0, desc='SPGR file')
@@ -499,7 +499,7 @@ class QIMcDespotInputSpec(QUITCommandInputSpec):
     threads = traits.Int(desc='Use N threads (default=4, 0=hardware limit)', argstr='--threads=%d')
     prefix = traits.String(desc='Add a prefix to output filenames', argstr='--out=%s')
 
-class QIMcDespotOutputSpec(TraitedSpec):
+class QIMCDespotOutputSpec(TraitedSpec):
     # Specify which outputs there are
     output_3C_T1_m = File(desc="T1 of myelin water")
     output_3C_T2_m = File(desc="T2 of myelin water")
@@ -513,7 +513,7 @@ class QIMcDespotOutputSpec(TraitedSpec):
     output_3C_f0 = File(desc="The off-resonance frequency. If this was specified on the command line, it will be a copy of that file")
     output_3C_B1 = File(desc="The relative flip-angle map. If this was specified on the command line, it will be a copy of that file")
     
-class QIMcDespot(QUITCommand):
+class QIMCDespot(QUITCommand):
     """
     Interace for qimcdespot
 
@@ -524,8 +524,8 @@ class QIMcDespot(QUITCommand):
     """
 
     _cmd = 'qimcdespot'
-    input_spec = QiMcDespotInputSpec
-    output_spec = QiMcDespotOutputSpec
+    input_spec = QIMCDespotInputSpec
+    output_spec = QIMCDespotOutputSpec
 
     # If the command requires a json input file
     def _format_arg(self, name, spec, value):
@@ -568,14 +568,14 @@ class QIMP2RAGE(QUITCommand):
 
     Example 1
     -------
-    >>> from QUIT.nipype.relaxometry import QiMp2rage
-    >>> interface = QiMp2rage(prefix='nipype_', param_file='spgr_params.json')
+    >>> from QUIT.nipype.relaxometry import QIMP2RAGE
+    >>> interface = QIMP2RAGE(prefix='nipype_', param_file='spgr_params.json')
     
     """
 
     _cmd = 'qimp2rage'
-    input_spec = QiMp2rageInputSpec
-    output_spec = QiMp2rageOutputSpec
+    input_spec = QIMP2RAGEInputSpec
+    output_spec = QIMP2RAGEOutputSpec
 
     # If the command requires a json input file
     def _format_arg(self, name, spec, value):
@@ -627,8 +627,8 @@ class QIMultiecho(QUITCommand):
     """
 
     _cmd = 'qimultiecho'
-    input_spec = QiMultiechoInputSpec
-    output_spec = QiMultiechoOutputSpec
+    input_spec = QIMultiechoInputSpec
+    output_spec = QIMultiechoOutputSpec
 
     # If the command requires a json input file
     def _format_arg(self, name, spec, value):
@@ -673,8 +673,8 @@ class QIDream(QUITCommand):
     """
 
     _cmd = 'qidream'
-    input_spec = QiDreamInputSpec
-    output_spec = QiDreamOutputSpec
+    input_spec = QIDreamInputSpec
+    output_spec = QIDreamOutputSpec
 
     # If the command requires a json input file
     def _format_arg(self, name, spec, value):
@@ -718,8 +718,8 @@ class QIAFI(QUITCommand):
     """
 
     _cmd = 'qiafi'
-    input_spec = QiAfiInputSpec
-    output_spec = QiAfiOutputSpec
+    input_spec = QIAFIInputSpec
+    output_spec = QIAFIOutputSpec
 
     # If the command requires a json input file
     def _format_arg(self, name, spec, value):
