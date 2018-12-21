@@ -247,8 +247,8 @@ class ComplexInputSpec(QUITCommandInputSpec):
 
     fixge = traits.Bool(
         desc='Fix GE FFT-shift bug (negate alternate slices)', argstr='--fixge')
-    negate = traits.Bool(
-        desc='Negate entire volumes', argstr='--negate')
+    negate = traits.Bool(desc='Multiply by -1', argstr='--negate')
+    conjugate = traits.Bool(desc='Conjugate data', argstr='--conjugate')
 
 
 class ComplexOutputSpec(TraitedSpec):
@@ -267,7 +267,7 @@ class Complex(QUITCommand):
 
     """
 
-    _cmd = 'qicomplex --verbose'
+    _cmd = 'qicomplex'
     input_spec = ComplexInputSpec
     output_spec = ComplexOutputSpec
 
