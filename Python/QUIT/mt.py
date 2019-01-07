@@ -44,6 +44,8 @@ class LorentzianInputSpec(QUITCommandInputSpec):
                              argstr='', mandatory=True, xor=['param_file'])
 
     # Options
+    mask_file = File(
+        desc='Only process voxels within the mask', argstr='--mask=%s')
     threads = traits.Int(
         desc='Use N threads (default=4, 0=hardware limit)', argstr='--threads=%d')
     prefix = traits.String(
@@ -69,12 +71,7 @@ class Lorentzian(QUITCommand):
     output_spec = LorentzianOutputSpec
 
     def _format_arg(self, name, spec, value):
-        if name == 'param_dict':
-            with open('_tmp_input.json', 'w') as outfile:
-                json.dump(value, outfile)
-            return "< _tmp_input.json"
-
-        return super(Lorentzian, self)._format_arg(name, spec, value)
+        return self._process_params(name, spec, value)
 
     def _list_outputs(self):
         outputs = self.output_spec().get()
@@ -85,15 +82,13 @@ class Lorentzian(QUITCommand):
         outputs['A_map'] = os.path.abspath(self._add_prefix('LTZ_A.nii.gz'))
         outputs['residual_map'] = os.path.abspath(
             self._add_prefix('LTZ_residual.nii.gz'))
-
-
-############################ qi_mtasym ############################
-# < To be implemented > #
+        return outputs
 
 ############################ qi_qmt ############################
 # < To be implemented > #
 
 ############################ qi_zspec ############################
+
 
 class ZSpecInputSpec(QUITCommandInputSpec):
     # Inputs
