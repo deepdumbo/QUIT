@@ -23,14 +23,69 @@ import json
 import os
 from .base import QUITCommand, QUITCommandInputSpec
 
-############################ qi_dipolar_mt ############################
-# < To be implemented > #
-
 ############################ qi_lineshape ############################
 # < To be implemented > #
 
 ############################ qi_lorentzian ############################
-# < To be implemented > #
+
+
+class LorentzianInputSpec(QUITCommandInputSpec):
+    # Inputs
+    in_file = File(exists=True,
+                   argstr='%s',
+                   mandatory=True,
+                   desc='Path to input Z-spectrum',
+                   position=-2)
+
+    param_file = File(desc='Parameter .json file', position=-1, argstr='< %s',
+                      xor=['param_dict'], mandatory=True, exists=True)
+
+    param_dict = traits.Dict(desc='dictionary trait', position=-1,
+                             argstr='', mandatory=True, xor=['param_file'])
+
+    # Options
+    threads = traits.Int(
+        desc='Use N threads (default=4, 0=hardware limit)', argstr='--threads=%d')
+    prefix = traits.String(
+        desc='Output prefix', argstr='--out=%s')
+
+
+class LorentzianOutputSpec(TraitedSpec):
+    pd_map = File(desc="Path to PD map")
+    f0_map = File(desc="Path to center-frequency map")
+    fwhm_map = File(desc="Path to FWHM map")
+    A_map = File(desc="Path to Lorentzian amplitude map")
+    residual_map = File(desc="Path to residual map")
+
+
+class Lorentzian(QUITCommand):
+    """
+    Fit a Lorentzian function to a Z-spectrum
+
+    """
+
+    _cmd = 'qi_lorentzian'
+    input_spec = LorentzianInputSpec
+    output_spec = LorentzianOutputSpec
+
+    def _format_arg(self, name, spec, value):
+        if name == 'param_dict':
+            with open('_tmp_input.json', 'w') as outfile:
+                json.dump(value, outfile)
+            return "< _tmp_input.json"
+
+        return super(Lorentzian, self)._format_arg(name, spec, value)
+
+    def _list_outputs(self):
+        outputs = self.output_spec().get()
+        outputs['pd_map'] = os.path.abspath(self._add_prefix('LTZ_PD.nii.gz'))
+        outputs['f0_map'] = os.path.abspath(self._add_prefix('LTZ_f0.nii.gz'))
+        outputs['fwhm_map'] = os.path.abspath(
+            self._add_prefix('LTZ_fwhm.nii.gz'))
+        outputs['A_map'] = os.path.abspath(self._add_prefix('LTZ_A.nii.gz'))
+        outputs['residual_map'] = os.path.abspath(
+            self._add_prefix('LTZ_residual.nii.gz'))
+
 
 ############################ qi_mtasym ############################
 # < To be implemented > #
@@ -39,7 +94,6 @@ from .base import QUITCommand, QUITCommandInputSpec
 # < To be implemented > #
 
 ############################ qi_zspec ############################
-
 
 class ZSpecInputSpec(QUITCommandInputSpec):
     # Inputs
