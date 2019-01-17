@@ -31,15 +31,18 @@ struct ASEModel {
     using ParameterType = double;
 
     static const int NV = 4;
+    static const int ND = 3;
     static const int NF = 3;
     using VaryingArray  = QI_ARRAYN(ParameterType, NV);
+    using DerivedArray  = QI_ARRAYN(ParameterType, ND);
     using FixedArray    = QI_ARRAYN(ParameterType, NF);
-    const std::array<const std::string, NV> varying_names{{"S0"s, "R2p"s, "DBV"s, "dT"s}};
+    const std::array<const std::string, NV> varying_names{{"S0"s, "R2p"s, "dT"s, "OEF"s}};
+    const std::array<const std::string, ND> derived_names{{"dHb"s, "DBV"s, "Tc"s}};
     const std::array<const std::string, NF> fixed_names{{}};
     const FixedArray                        fixed_defaults{};
 
     const SequenceType &sequence;
-    const double        B0, Tc;
+    const double        B0;
     VaryingArray        start, bounds_lo, bounds_hi;
 
     static constexpr double kappa    = 0.03;         // Conversion factor
@@ -47,12 +50,12 @@ struct ASEModel {
     static constexpr double delta_X0 = 0.264e-6;     // Susc diff oxy and fully de-oxy blood
     static constexpr double Hb       = 0.34 / kappa; // Hct = 0.34;
     ASEModel(const SequenceType &s, const double B0in)
-        : sequence{s}, B0{B0in}, Tc{0.015 / (B0in / 3)}
+        : sequence{s}, B0{B0in}
     // Nic Blockley uses Tc = 15 ms for 3T, scale for other field-strengths
     {
-        start << 1., 1., 0.1, 0.;
-        bounds_lo << 0.1, -20., 1.e-6, -5.e-3;
-        bounds_hi << 10., 20., 0.99, 5.e-3;
+        start << 0.9, 5.0, 0., 0.4;
+        bounds_lo << 0.1, 1.e-3, -0.1, 0.2;
+        bounds_hi << 2., 20., 0.1, 1.0;
     }
 
     template <typename Derived>
@@ -61,39 +64,39 @@ struct ASEModel {
         using T      = typename Derived::Scalar;
         const T &S0  = varying[0];
         const T &R2p = varying[1];
-        const T &DBV = varying[2];
-        // const T &OEF = varying[3];
-        const T &dT = varying[3];
+        const T &dT  = varying[2];
+        const T &OEF = varying[3];
 
-        // Calculate characteristic frequency
-        // const auto dHb = 3. * R2p / (DBV * 4. * gamma * M_PI * delta_X0 * kappa * B0);
-        const auto dw = R2p / DBV;
-        const auto Tc = 1. / dw;
-        // Adjust TE to find peak
+        const auto dHb = OEF * Hb;
+        const auto DBV = 3. * R2p / (dHb * 4. * gamma * M_PI * delta_X0 * kappa * B0);
+        const auto Tc  = DBV / R2p;
         const auto aTE = (sequence.TE + dT).abs();
         QI_ARRAY(T) S(sequence.size());
         for (int i = 0; i < sequence.size(); i++) {
-            const auto tau    = aTE(i);
-            const auto S_quad = S0 * exp(-(2. / 9.) * (R2p * tau) * (R2p * tau) / DBV);
-            const auto S_lin  = S0 * exp(-tau * R2p + DBV);
-            std::cout << "< 1.5Tc " << (tau < (1.5 * Tc)) << "\ttau " << tau << "\tSl " << S_lin
-                      << "\tSq " << S_quad << std::endl;
+            const auto tau = aTE(i);
             if (tau < (1.5 * Tc)) {
-                S(i) = S_quad;
+                S(i) = S0 * exp(-(0.3) * (R2p * tau) * (R2p * tau) / DBV);
             } else {
-                S(i) = S_lin;
+                S(i) = S0 * exp(-tau * R2p + DBV);
             }
         }
-        QI_DB(Tc)
-
-        QI_DB(S0)
-        QI_DB(R2p)
-        QI_DB(DBV)
-        QI_DB(dT)
-        QI_DBVEC(sequence.TE)
-        QI_DBVEC(aTE)
-        QI_DBVEC(S)
         return S;
+    }
+
+    void derived(const VaryingArray &varying, const FixedArray & /* Unused */,
+                 DerivedArray &      derived) const {
+
+        // const auto &S0  = varying[0];
+        const auto &R2p = varying[1];
+        // const auto &dT  = varying[2];
+        const auto &OEF = varying[3];
+
+        const auto dHb = OEF * Hb;
+        const auto DBV = 3. * R2p / (dHb * 4. * gamma * M_PI * delta_X0 * kappa * B0);
+        const auto Tc  = DBV / R2p;
+        derived[0]     = dHb;
+        derived[1]     = DBV;
+        derived[2]     = Tc;
     }
 };
 
@@ -176,6 +179,11 @@ int main(int argc, char **argv) {
             const std::string fname = outPrefix + "_" + model.varying_names[i] + QI::OutExt();
             QI_LOG(verbose, "Writing file: " << fname);
             QI::WriteImage(fit_filter->GetOutput(i), fname);
+        }
+        for (size_t i = 0; i < model.ND; i++) {
+            const std::string fname = outPrefix + "_" + model.derived_names[i] + QI::OutExt();
+            QI_LOG(verbose, "Writing file: " << fname);
+            QI::WriteImage(fit_filter->GetDerivedOutput(i), fname);
         }
     }
     return EXIT_SUCCESS;
