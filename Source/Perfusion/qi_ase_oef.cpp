@@ -36,8 +36,8 @@ struct ASEModel {
     using VaryingArray  = QI_ARRAYN(ParameterType, NV);
     using DerivedArray  = QI_ARRAYN(ParameterType, ND);
     using FixedArray    = QI_ARRAYN(ParameterType, NF);
-    const std::array<const std::string, NV> varying_names{{"S0"s, "R2p"s, "dT"s, "OEF"s}};
-    const std::array<const std::string, ND> derived_names{{"dHb"s, "DBV"s, "Tc"s}};
+    const std::array<const std::string, NV> varying_names{{"S0"s, "dT"s, "OEF"s, "DBV"s}};
+    const std::array<const std::string, ND> derived_names{{"Tc"s, "R2p"s, "dHb"s}};
     const std::array<const std::string, NF> fixed_names{{}};
     const FixedArray                        fixed_defaults{};
 
@@ -45,17 +45,15 @@ struct ASEModel {
     const double        B0;
     VaryingArray        start, bounds_lo, bounds_hi;
 
-    static constexpr double kappa    = 0.03;         // Conversion factor
-    static constexpr double gamma    = 42.577e6;     // Gyromagnetic Ratio
-    static constexpr double delta_X0 = 0.264e-6;     // Susc diff oxy and fully de-oxy blood
-    static constexpr double Hb       = 0.34 / kappa; // Hct = 0.34;
-    ASEModel(const SequenceType &s, const double B0in)
-        : sequence{s}, B0{B0in}
-    // Nic Blockley uses Tc = 15 ms for 3T, scale for other field-strengths
-    {
-        start << 0.9, 5.0, 0., 0.4;
-        bounds_lo << 0.1, 1.e-3, -0.1, 0.2;
-        bounds_hi << 2., 20., 0.1, 1.0;
+    static constexpr double kappa    = 0.03;     // Conversion factor
+    static constexpr double gamma    = 42.577e6; // Gyromagnetic Ratio
+    static constexpr double delta_X0 = 0.264e-6; // Susc diff oxy and fully de-oxy blood
+    static constexpr double Hct      = 0.34;
+    static constexpr double Hb       = Hct / kappa;
+    ASEModel(const SequenceType &s, const double B0in) : sequence{s}, B0{B0in} {
+        start << 0.98, 0., 0.5, 0.015;
+        bounds_lo << 0.1, -0.1, 0.2, 0.005;
+        bounds_hi << 2., 0.1, 0.65, 0.15;
     }
 
     template <typename Derived>
@@ -63,13 +61,14 @@ struct ASEModel {
         -> QI_ARRAY(typename Derived::Scalar) {
         using T      = typename Derived::Scalar;
         const T &S0  = varying[0];
-        const T &R2p = varying[1];
-        const T &dT  = varying[2];
-        const T &OEF = varying[3];
+        const T &dT  = varying[1];
+        const T &OEF = varying[2];
+        const T &DBV = varying[3];
 
-        const auto dHb = OEF * Hb;
-        const auto DBV = 3. * R2p / (dHb * 4. * gamma * M_PI * delta_X0 * kappa * B0);
-        const auto Tc  = DBV / R2p;
+        const auto dw  = (4. * M_PI / 3.) * (gamma * 2. * M_PI) * B0 * delta_X0 * Hct * OEF;
+        const auto Tc  = 1. / dw;
+        const auto R2p = DBV * dw;
+
         const auto aTE = (sequence.TE + dT).abs();
         QI_ARRAY(T) S(sequence.size());
         for (int i = 0; i < sequence.size(); i++) {
@@ -80,23 +79,38 @@ struct ASEModel {
                 S(i) = S0 * exp(-tau * R2p + DBV);
             }
         }
+        QI_DB(S0)
+        QI_DB(dT)
+        QI_DB(OEF)
+        QI_DB(DBV)
+        QI_DB(dw)
+        QI_DB(dw2)
+        QI_DB(Tc)
+        QI_DB(R2p)
+        QI_DB(B0)
+        QI_DB(delta_X0)
+        QI_DB(Hct)
+        QI_DB(gamma)
+        QI_DBVEC(aTE)
+        QI_DBVEC(S)
         return S;
     }
 
     void derived(const VaryingArray &varying, const FixedArray & /* Unused */,
                  DerivedArray &      derived) const {
+        // const T &S0  = varying[0];
+        // const T &dT  = varying[1];
+        const auto &OEF = varying[2];
+        const auto &DBV = varying[3];
 
-        // const auto &S0  = varying[0];
-        const auto &R2p = varying[1];
-        // const auto &dT  = varying[2];
-        const auto &OEF = varying[3];
-
+        const auto dw  = (4. * M_PI / 3.) * gamma * B0 * delta_X0 * Hct * OEF;
+        const auto Tc  = 1. / dw;
+        const auto R2p = DBV * dw;
         const auto dHb = OEF * Hb;
-        const auto DBV = 3. * R2p / (dHb * 4. * gamma * M_PI * delta_X0 * kappa * B0);
-        const auto Tc  = DBV / R2p;
-        derived[0]     = dHb;
-        derived[1]     = DBV;
-        derived[2]     = Tc;
+
+        derived[0] = Tc;
+        derived[1] = R2p;
+        derived[2] = dHb;
     }
 };
 
