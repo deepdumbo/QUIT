@@ -190,7 +190,7 @@ int main(int argc, char **argv) {
         QI_LOG(verbose, "Elapsed time was " << fit_filter->GetTotalTime() << "s" <<
                         "Writing results files.");
         std::string outPrefix = outarg.Get() + "FM_";
-        for (int i = 0; i < fm.n_outputs(); i++) {
+        for (int i = 0; i < model.NV; i++) {
             QI::WriteImage(fit_filter->GetOutput(i), outPrefix + fm.model.varying_names.at(i) + QI::OutExt());
         }
         QI::WriteImage(fit_filter->GetResidualOutput(), outPrefix + "residual" + QI::OutExt());

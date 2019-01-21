@@ -37,27 +37,27 @@ class ModelFitFilter
           typename BlockTypes<FitType::Blocked, 3,
                               typename IOPrecision<typename FitType::OutputType>::Type>::Type> {
   public:
-    static constexpr int  ImageDimension = 3;
-    static constexpr bool Blocked        = FitType::Blocked;
-    static constexpr bool Indexed        = FitType::Indexed;
-    static constexpr bool HasDerived     = FitType::ModelType::ND > 0;
-    using InputType                      = typename FitType::InputType;
-    using OutputType                     = typename FitType::OutputType;
-    using ParameterType                  = typename FitType::ModelType::ParameterType;
+    using ModelType     = typename FitType::ModelType;
+    using InputType     = typename FitType::InputType;
+    using OutputType    = typename FitType::OutputType;
+    using ParameterType = typename ModelType::ParameterType;
 
     using InputPixelType  = typename IOPrecision<InputType>::Type;
     using OutputPixelType = typename IOPrecision<OutputType>::Type;
     using FixedPixelType  = typename IOPrecision<ParameterType>::Type;
 
-    using TInputImage = VectorImage<InputPixelType, ImageDimension>;
-    using TFixedImage = Image<FixedPixelType, ImageDimension>;
-    using TMaskImage  = Image<float, ImageDimension>;
+    static constexpr int ImageDim = 3;
 
-    using TOutputImage = typename BlockTypes<Blocked, ImageDimension, OutputPixelType>::Type;
-    using TFlagImage =
-        typename BlockTypes<Blocked, ImageDimension, typename FitType::FlagType>::Type;
-    using TResidualImage  = typename BlockTypes<Blocked, ImageDimension, InputPixelType>::Type;
-    using TResidualsImage = VectorImage<InputPixelType, ImageDimension>;
+    using TInputImage = VectorImage<InputPixelType, ImageDim>;
+    using TFixedImage = Image<FixedPixelType, ImageDim>;
+    using TMaskImage  = Image<float, ImageDim>;
+
+    static constexpr bool Blocked = FitType::Blocked;
+
+    using TOutputImage   = typename BlockTypes<Blocked, ImageDim, OutputPixelType>::Type;
+    using TFlagImage     = typename BlockTypes<Blocked, ImageDim, typename FitType::FlagType>::Type;
+    using TResidualImage = typename BlockTypes<Blocked, ImageDim, InputPixelType>::Type;
+    using TResidualsImage = VectorImage<InputPixelType, ImageDim>;
 
     using TRegion = typename TInputImage::RegionType;
     using TIndex  = typename TRegion::IndexType;
@@ -65,6 +65,9 @@ class ModelFitFilter
     using Self       = ModelFitFilter;
     using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
     using Pointer    = SmartPointer<Self>;
+
+    static constexpr bool Indexed    = FitType::Indexed;
+    static constexpr bool HasDerived = ModelType::ND > 0;
 
     QI_ForwardNewMacro(Self);
     itkTypeMacro(ModelFitFilter,
@@ -75,9 +78,9 @@ class ModelFitFilter
     static constexpr int FixedOffset = MaskOffset + 1;
 
     // Output image offsets
-    static constexpr int DerivedOutputOffset = HasDerived ? FitType::ModelType::NV : -1;
+    static constexpr int DerivedOutputOffset = HasDerived ? ModelType::NV : -1;
     static constexpr int FlagOutputOffset =
-        HasDerived ? DerivedOutputOffset + FitType::ModelType::ND : FitType::ModelType::NV;
+        HasDerived ? DerivedOutputOffset + ModelType::ND : ModelType::NV;
     static constexpr int ResidualOutputOffset  = FlagOutputOffset + 1;
     static constexpr int ResidualsOutputOffset = ResidualOutputOffset + 1;
     static constexpr int TotalOutputs          = ResidualsOutputOffset + 1;
@@ -109,21 +112,21 @@ class ModelFitFilter
     }
 
     void SetFixed(const int i, const TFixedImage *image) {
-        if (i < m_fit->n_fixed()) {
+        if (i < ModelType::NF) {
             this->SetNthInput(m_fit->n_inputs() + FixedOffset + i,
                               const_cast<TFixedImage *>(image));
         } else {
-            itkExceptionMacro("Requested const input " << i << " does not exist ("
-                                                       << m_fit->n_fixed() << " const inputs)");
+            itkExceptionMacro("Requested const input " << i << " does not exist (" << ModelType::NF
+                                                       << " const inputs)");
         }
     }
 
     typename TFixedImage::ConstPointer GetFixed(const int i) const {
-        if (i < m_fit->n_fixed()) {
+        if (i < ModelType::NF) {
             size_t index = m_fit->n_inputs() + FixedOffset + i;
             return static_cast<const TFixedImage *>(this->ProcessObject::GetInput(index));
         } else {
-            QI_FAIL("Requested const input " << i << " does not exist (" << m_fit->n_fixed()
+            QI_FAIL("Requested const input " << i << " does not exist (" << ModelType::NF
                                              << " const inputs)");
         }
     }
@@ -156,11 +159,11 @@ class ModelFitFilter
     }
 
     TOutputImage *GetOutput(const int i) {
-        if (i < m_fit->n_outputs()) {
+        if (i < ModelType::NV) {
             return dynamic_cast<TOutputImage *>(this->ProcessObject::GetOutput(i));
         } else {
             QI_FAIL("Requested output " << std::to_string(i) << " is past maximum ("
-                                        << std::to_string(m_fit->n_outputs()) << ")");
+                                        << std::to_string(ModelType::NV) << ")");
         }
     }
 
@@ -179,13 +182,12 @@ class ModelFitFilter
 
     TOutputImage *GetDerivedOutput(const int i) {
         if constexpr (HasDerived) {
-            if (i < FitType::ModelType::ND) {
+            if (i < ModelType::ND) {
                 return dynamic_cast<TOutputImage *>(
                     this->ProcessObject::GetOutput(DerivedOutputOffset + i));
             } else {
                 QI_FAIL("Requested derived output " << std::to_string(i) << " is past maximum ("
-                                                    << std::to_string(FitType::ModelType::ND)
-                                                    << ")");
+                                                    << std::to_string(ModelType::ND) << ")");
             }
         } else {
             QI_FAIL("No derived outputs for this model");
@@ -202,7 +204,7 @@ class ModelFitFilter
     DataObject::Pointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override {
         using itype = ProcessObject::DataObjectPointerArraySizeType; // Stop unsigned long
                                                                      // versus int warnings
-        if (idx < static_cast<itype>(m_fit->n_outputs())) {
+        if (idx < static_cast<itype>(ModelType::NV)) {
             return TOutputImage::New().GetPointer();
         } else if (idx < static_cast<itype>(FlagOutputOffset)) {
             return TOutputImage::New().GetPointer();
@@ -242,7 +244,7 @@ class ModelFitFilter
         auto direction = input->GetDirection();
         if (m_verbose)
             std::cout << "Allocating output memory" << std::endl;
-        for (int i = 0; i < m_fit->n_outputs(); i++) {
+        for (int i = 0; i < ModelType::NV; i++) {
             auto op = this->GetOutput(i);
             op->SetRegions(region);
             op->SetSpacing(spacing);
@@ -254,7 +256,7 @@ class ModelFitFilter
             op->Allocate(true);
         }
         if constexpr (HasDerived) {
-            for (int i = 0; i < FitType::ModelType::ND; i++) {
+            for (int i = 0; i < ModelType::ND; i++) {
                 auto op = this->GetDerivedOutput(i);
                 op->SetRegions(region);
                 op->SetSpacing(spacing);
@@ -314,7 +316,7 @@ class ModelFitFilter
         }
 
         this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-        this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+        this->GetMultiThreader()->template ParallelizeImageRegion<ImageDim>(
             region,
             [this](const typename TOutputImage::RegionType &outputRegion) {
                 this->DynamicThreadedGenerateData(outputRegion);
@@ -339,22 +341,22 @@ class ModelFitFilter
                     ImageRegionIterator<TResidualsImage>(this->GetResidualsOutput(i), region);
             }
         }
-        std::vector<ImageRegionConstIterator<TFixedImage>> fixed_iters(m_fit->n_fixed());
-        for (int i = 0; i < m_fit->n_fixed(); i++) {
+        std::vector<ImageRegionConstIterator<TFixedImage>> fixed_iters(ModelType::NF);
+        for (int i = 0; i < ModelType::NF; i++) {
             typename TFixedImage::ConstPointer c = this->GetFixed(i);
             if (c) {
                 fixed_iters[i] = ImageRegionConstIterator<TFixedImage>(c, region);
             }
         }
 
-        std::vector<ImageRegionIterator<TOutputImage>> output_iters(m_fit->n_outputs());
-        for (int i = 0; i < m_fit->n_outputs(); i++) {
+        std::vector<ImageRegionIterator<TOutputImage>> output_iters(ModelType::NV);
+        for (int i = 0; i < ModelType::NV; i++) {
             output_iters[i] = ImageRegionIterator<TOutputImage>(this->GetOutput(i), region);
         }
 
-        std::vector<ImageRegionIterator<TOutputImage>> derived_iters(FitType::ModelType::ND);
+        std::vector<ImageRegionIterator<TOutputImage>> derived_iters(ModelType::ND);
         if constexpr (HasDerived) {
-            for (int i = 0; i < FitType::ModelType::ND; i++) {
+            for (int i = 0; i < ModelType::ND; i++) {
                 derived_iters[i] =
                     ImageRegionIterator<TOutputImage>(this->GetDerivedOutput(i), region);
             }
@@ -366,7 +368,7 @@ class ModelFitFilter
         ImageRegionIterator<TFlagImage>              flag_iter(this->GetFlagOutput(), region);
 
         using InputArray    = QI_ARRAY(typename FitType::InputType);
-        using OutputArray   = QI_ARRAYN(typename FitType::OutputType, FitType::ModelType::NV);
+        using OutputArray   = QI_ARRAYN(typename FitType::OutputType, ModelType::NV);
         using ResidualArray = QI_ARRAY(typename FitType::ResidualType);
         while (!input_iters[0].IsAtEnd()) {
             if (!mask || mask_iter.Get()) {
@@ -420,22 +422,21 @@ class ModelFitFilter
                     if constexpr (Blocked) {
                         flag_iter.Get()[b]     = flag;
                         residual_iter.Get()[b] = residual;
-                        for (int i = 0; i < m_fit->n_outputs(); i++) {
+                        for (int i = 0; i < ModelType::NV; i++) {
                             output_iters[i].Get()[b] = outputs[i];
                         }
                     } else {
                         flag_iter.Set(flag);
                         residual_iter.Set(static_cast<InputType>(residual));
-                        for (int i = 0; i < m_fit->n_outputs(); i++) {
+                        for (int i = 0; i < ModelType::NV; i++) {
                             output_iters[i].Set(outputs[i]);
                         }
                     }
                     if constexpr (HasDerived) {
-                        using DerivedArray =
-                            QI_ARRAYN(typename FitType::OutputType, FitType::ModelType::ND);
+                        using DerivedArray = QI_ARRAYN(typename FitType::OutputType, ModelType::ND);
                         DerivedArray derived;
                         m_fit->model.derived(outputs, fixed, derived);
-                        for (int i = 0; i < FitType::ModelType::ND; i++) {
+                        for (int i = 0; i < ModelType::ND; i++) {
                             derived_iters[i].Set(derived[i]);
                         }
                     }
@@ -452,14 +453,14 @@ class ModelFitFilter
                 if constexpr (Blocked) {
                     flag_iter.Get().Fill(0);
                     residual_iter.Get().Fill(0);
-                    for (int i = 0; i < m_fit->n_outputs(); i++) {
-                        output_iters[i].Get().Fill(0);
+                    for (auto &o : output_iters) {
+                        o.Get().Fill(0);
                     }
                 } else {
                     flag_iter.Set(0);
                     flag_iter.Set(0);
-                    for (int i = 0; i < m_fit->n_outputs(); i++) {
-                        output_iters[i].Set(0);
+                    for (auto &o : output_iters) {
+                        o.Set(0);
                     }
                 }
                 if constexpr (HasDerived) {
@@ -468,8 +469,8 @@ class ModelFitFilter
                     }
                 }
                 if (m_allResiduals) {
-                    for (int i = 0; i < m_fit->n_inputs(); i++) {
-                        residuals_iters[i].Get().Fill(0);
+                    for (auto &r : residuals_iters) {
+                        r.Get().Fill(0);
                     }
                 }
             }
@@ -481,11 +482,11 @@ class ModelFitFilter
                 if (m_allResiduals)
                     ++residuals_iters[i];
             }
-            for (int i = 0; i < m_fit->n_fixed(); i++) {
+            for (int i = 0; i < ModelType::NF; i++) {
                 if (this->GetFixed(i))
                     ++fixed_iters[i];
             }
-            for (int i = 0; i < m_fit->n_outputs(); i++) {
+            for (int i = 0; i < ModelType::NV; i++) {
                 ++output_iters[i];
             }
             if constexpr (HasDerived) {

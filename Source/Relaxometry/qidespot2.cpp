@@ -278,7 +278,7 @@ int main(int argc, char **argv) {
         QI_LOG(verbose, "Elapsed time was " << fit->GetTotalTime() << "s" <<
                         "Writing results files.");
         std::string outPrefix = outarg.Get() + "D2_";
-        for (int i = 0; i < d2->n_outputs(); i++) {
+        for (int i = 0; i < model.NV; i++) {
             QI::WriteImage(fit->GetOutput(i), outPrefix + d2->model.varying_names.at(i) + QI::OutExt());
         }
         QI::WriteImage(fit->GetResidualOutput(), outPrefix + "residual" + QI::OutExt());
